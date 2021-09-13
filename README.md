@@ -2,5 +2,5 @@
 
 <h3>List of API's that are included in this Project!</h3>
 <ul>
-    <li><a href="google.com">URLScan</a>
+    <li><a href="https://urlscan.io/docs/api/">URLScan</a>
 </ul>
