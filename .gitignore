@@ -117,5 +117,5 @@ dmypy.json
 playground.py
 todo.txt
 config.py
-DC-Bot/cogs/etc/config.py
+DC-Bot/cogs/etc
 __pycache__
