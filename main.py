@@ -1,4 +1,4 @@
-from urlscan.url_grep import urlscan
+from API.urlscan.url_grep import urlscan
 from switch import Switch
 
 
