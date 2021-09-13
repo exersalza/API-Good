@@ -1,0 +1,2 @@
+TOKEN = 'ODg3MDE3MDcwODA4Njc4NDAy.YT-BBQ.3ByY1rMM3-r-XX0yu1kiA3kn1Xs'  # DON'T LEAK ON STREAM!!!
+PREFIX = '!'  # Changeable
