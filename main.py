@@ -2,21 +2,11 @@ from API.urlscan.url_grep import urlscan
 from switch import Switch
 
 
-def main(val=input('Input what you want: ').lower().strip(' ')):
-    with Switch(val) as case:
-        if case('url'):
-            i = input('URL to Prove: ')
+class Main:
+    def __init__(self, val):
+        self.val = val
 
-            def url_switcher(url=urlscan(str(i))):
-                values = []
+    def url_check(url):
 
-                with Switch(str(url).strip('<Response > [ ]')) as url_case:
-                    if url_case('400'):
-                        values.append('dont exists or is not reachable.')
+        return urlscan(url)
 
-                    if url_case('200'):
-                        values.append('passed')
-
-                return values
-
-            print(str(url_switcher()).strip('[\']'))
