@@ -1,7 +1,5 @@
 import os
 import discord
-import json
-from datetime import datetime
 
 from discord_components import DiscordComponents
 from discord.ext import commands
