@@ -11,6 +11,7 @@ bot = commands.Bot(command_prefix=PREFIX, intents=intents,
 
 DiscordComponents(bot)
 
+
 for filename in os.listdir("cogs"):
     if filename.endswith(".py") and filename != "__init__.py":
         bot.load_extension(f"cogs.{filename[:-3]}")

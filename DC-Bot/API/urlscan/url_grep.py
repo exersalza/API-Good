@@ -1,7 +1,7 @@
 import requests
 import json
 
-from config import URLSCAN_TOKEN as TOKEN
+from API.config import URLSCAN_TOKEN as TOKEN
 
 
 def urlscan(requesturl):
