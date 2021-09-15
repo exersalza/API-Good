@@ -2,7 +2,7 @@ import qrcode
 
 
 async def create_code(*content):
-    data = content
+    data
 
     qr = qrcode.QRCode(
         version=1,
