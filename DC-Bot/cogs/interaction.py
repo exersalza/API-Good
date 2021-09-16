@@ -30,6 +30,7 @@ class Interaction(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
+        print(message.content)
         data = []
         d = {'s': self.create}
 
@@ -56,8 +57,9 @@ class Interaction(commands.Cog):
 
 
     @commands.Command
-    async def create(self, ctx, *args):
-        print(args)
+    async def create(self, ctx, args):
+        print(ctx, )
+        main.qr_gen('data')
 
 
 def setup(bot):
