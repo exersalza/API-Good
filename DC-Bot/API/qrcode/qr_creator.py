@@ -1,8 +1,7 @@
 import qrcode
 
 
-async def create_code(*content):
-    data
+def create_code():
 
     qr = qrcode.QRCode(
         version=1,
@@ -22,3 +21,5 @@ async def create_code(*content):
 
     img = qr.make_image(fill_color=(0, 0, 0), back_color=(255, 165, 0))
     img.save('test.png')
+
+create_code()

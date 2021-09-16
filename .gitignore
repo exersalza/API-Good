@@ -88,7 +88,7 @@ celerybeat-schedule
 
 # Environments
 .env
-.venv
+.goose
 env/
 venv/
 ENV/
@@ -117,5 +117,5 @@ dmypy.json
 DC-Bot/API/playground.py
 todo.txt
 DC-Bot/API/config.py
-DC-Bot/cogs/etc
+DC-Bot/cogs/etc/config.py
 __pycache__

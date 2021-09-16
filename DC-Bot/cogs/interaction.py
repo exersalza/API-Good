@@ -17,6 +17,12 @@ class Interaction(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+        self.parser = argparse.ArgumentParser(description='Create QR Code arguments!')
+        self.args = self.parser.parse_args()
+
+        self.parser.add_argument('-bg', '--bgcolor', type=str, help='Enter BG Color behind the Argument!')
+        self.parser.add_argument('-c', '--color', type=str, help='Enter Color behind the Argument!')
+
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -27,11 +33,21 @@ class Interaction(commands.Cog):
         data = []
         d = {'s': self.create}
 
-        msg = message.content
-        if '-' in msg:
-            for option in d:
-                if f'-{option}' in msg:  # if any in d
-                    d[option]()
+        def decode(foo):
+            return foo
+
+
+
+        # msg = message.content
+        # self.parser.parse_args(msg.split())
+
+        # await message.channel.send('ego death', self.args.bg)
+
+            # for option in d:
+            #     print(option)
+            #     if f'-{option}' in msg:
+            #         if 's' == option:
+            #             return
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
@@ -40,8 +56,8 @@ class Interaction(commands.Cog):
 
 
     @commands.Command
-    async def create(self, ctx):
-        print('coggers')
+    async def create(self, ctx, *args):
+        print(args)
 
 
 def setup(bot):
