@@ -54,12 +54,24 @@ class Interaction(commands.Cog):
     @commands.Command
     async def create(self, ctx, *args):
 
-        # print(type(args), args)
+        print('cogs')
 
         options = ['-c', '-b', '-bg']
+        # await ctx.send(f'{args[args.index("-c") + var]} is not an Number!')
 
-        if [x for x in options if x == '-c']:
-            print(args[args.index('-c') + 1], args[args.index('-c') + 2])
+        if [x for x in args if x == '-c']:
+            print('c')
+            var = 1
+            while var != 4:
+                if args[args.index('-c') + var].isdigit():
+                    print('IS DIGIT', args[args.index('-c') + var])
+                    await ctx.send(args[args.index('-c') + var])
+                    var += 1
+                else:
+                    print('exit')
+                    await ctx.send(' can only take numbers as Argument')
+                    var = 4
+
 
         return
         create_code(args)
