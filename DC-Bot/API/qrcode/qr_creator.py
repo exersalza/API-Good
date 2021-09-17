@@ -16,3 +16,4 @@ def create_code(data, fcolor=(0, 0, 0), bgcolor=(255, 255, 255), box_size=6):
     img = qr.make_image(fill_color=fcolor, background_color=bgcolor)
     img.save('test.png')
 
+
