@@ -1,7 +1,7 @@
 import qrcode
 
 
-def create_code(data, fcolor=(0, 0, 0), bgcolor=(255, 255, 255), box_size=6):
+def create_code(data, fcolor, bgcolor, box_size):
 
     qr = qrcode.QRCode(
         version=1,

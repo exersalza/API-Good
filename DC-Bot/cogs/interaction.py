@@ -52,7 +52,16 @@ class Interaction(commands.Cog):
 
 
     @commands.Command
-    async def create(self, ctx, args):
+    async def create(self, ctx, *args):
+
+        # print(type(args), args)
+
+        options = ['-c', '-b', '-bg']
+
+        if [x for x in options if x == '-c']:
+            print(args[args.index('-c') + 1], args[args.index('-c') + 2])
+
+        return
         create_code(args)
         await ctx.send(file=discord.File('test.png'))
 
