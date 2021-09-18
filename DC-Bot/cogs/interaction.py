@@ -1,16 +1,10 @@
-import os
-import sys
 import argparse
-import discord
-
-from switch import Switch
 from datetime import datetime
 
+import discord
+from API.qrcode.qr_creator import create_code
 from discord.ext import commands
 from discord.ext.commands import CommandNotFound
-
-from API.qrcode.qr_creator import create_code
-
 
 
 class Interaction(commands.Cog):
@@ -22,7 +16,6 @@ class Interaction(commands.Cog):
 
         self.parser.add_argument('-bg', '--bgcolor', type=str, help='Enter BG Color behind the Argument!')
         self.parser.add_argument('-c', '--color', type=str, help='Enter Color behind the Argument!')
-
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -50,7 +43,6 @@ class Interaction(commands.Cog):
         if isinstance(error, CommandNotFound):
             return await ctx.send("Command/API nicht gefunden.")
 
-
     @commands.Command
     async def create(self, ctx, *args):
 
@@ -71,7 +63,6 @@ class Interaction(commands.Cog):
                     print('exit')
                     await ctx.send(' can only take numbers as Argument')
                     var = 4
-
 
         return
         create_code(args)
