@@ -14,6 +14,6 @@ def create_code(data, fcolor, bgcolor, box_size):
     qr.make(fit=True)
 
     img = qr.make_image(fill_color=fcolor, background_color=bgcolor)
-    img.save('test.png')
+    img.save('cogs/etc/test.png')
 
 

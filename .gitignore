@@ -120,3 +120,5 @@ DC-Bot/cogs/API/config.py
 DC-Bot/cogs/etc/config.py
 __pycache__
 /DC-Bot/cogs/API/config.py
+/DC-Bot/API/config.py
+/DC-Bot/API/playground.py
