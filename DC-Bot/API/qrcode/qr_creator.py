@@ -3,8 +3,6 @@ import qrcode
 
 def create_code(data, fcolor=(0, 0, 0), bgcolor=(255, 255, 255), box_size=6):
 
-    print(fcolor, bgcolor, box_size)
-
     qr = qrcode.QRCode(
         version=1,
         error_correction=qrcode.constants.ERROR_CORRECT_L,
@@ -15,10 +13,10 @@ def create_code(data, fcolor=(0, 0, 0), bgcolor=(255, 255, 255), box_size=6):
     qr.add_data(data)
     qr.make(fit=True)
 
-    img = qr.make_image()
+    img = qr.make_image(fill_color=fcolor, back_color=bgcolor)
     img.save('test.png')
 
 
-# create_code('data is not valid you bastard', (0, 0, 0), (0, 255, 255), 6)
+# create_code('testing some data for exchange', (0, 0, 0), (0, 255, 255), 6)
 
 
