@@ -7,6 +7,9 @@ from discord.ext import commands
 from discord.ext.commands import CommandNotFound
 
 
+#todo:
+# !create localfile delete after send
+
 class Interaction(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -48,24 +51,23 @@ class Interaction(commands.Cog):
 
         print('cogs')
 
-        options = ['-c', '-b', '-bg']
-        # await ctx.send(f'{args[args.index("-c") + var]} is not an Number!')
+        # options = ['-c', '-b', '-bg']
+        # # await ctx.send(f'{args[args.index("-c") + var]} is not an Number!')
+        #
+        # arg = []
+        #
+        # if [x for x in args if x == '-c']:
+        #     var = 1
+        #     while var != 4:
+        #         if args[args.index('-c') + var].isdigit():
+        #             arg.append(args[args.index('-c') + var])
+        #             var += 1
+        #         else:
+        #             await ctx.send('!create can only take numbers as Argument')
+        #             var = 4
 
-        if [x for x in args if x == '-c']:
-            print('c')
-            var = 1
-            while var != 4:
-                if args[args.index('-c') + var].isdigit():
-                    print('IS DIGIT', args[args.index('-c') + var])
-                    await ctx.send(args[args.index('-c') + var])
-                    var += 1
-                else:
-                    print('exit')
-                    await ctx.send(' can only take numbers as Argument')
-                    var = 4
-
-        return
-        create_code(args)
+        # return
+        create_code('coggörs')
         await ctx.send(file=discord.File('test.png'))
 
 

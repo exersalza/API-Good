@@ -114,8 +114,9 @@ dmypy.json
 .pyre/
 
 # config
-DC-Bot/API/playground.py
+DC-Bot/cogs/API/playground.py
 todo.txt
-DC-Bot/API/config.py
+DC-Bot/cogs/API/config.py
 DC-Bot/cogs/etc/config.py
 __pycache__
+/DC-Bot/cogs/API/config.py
