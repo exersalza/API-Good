@@ -48,6 +48,12 @@ class Interaction(commands.Cog):
 
     @commands.Command
     async def create(self, ctx, *args):
+        try:
+            create_code(str(args))
+            await ctx.send(file=discord.File('test.png'))
+
+        except Exception:
+            raise Exception
 
         print('cogs')
 
@@ -67,8 +73,6 @@ class Interaction(commands.Cog):
         #             var = 4
 
         # return
-        create_code('coggörs')
-        await ctx.send(file=discord.File('test.png'))
 
 
 def setup(bot):
