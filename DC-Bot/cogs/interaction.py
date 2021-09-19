@@ -1,4 +1,6 @@
 import argparse
+import os
+import time
 from datetime import datetime
 
 import discord
@@ -48,32 +50,51 @@ class Interaction(commands.Cog):
 
     @commands.Command
     async def create(self, ctx, *args):
-        try:
-            create_code(str(args))
-            await ctx.send(file=discord.File('test.png'))
+        print(type(args[1]))
 
-        except Exception:
-            raise Exception
+        options = ['-c', '-b', '-bg']
 
-        print('cogs')
+        arg1 = []
+        arg2 = []
+        arg3 = []
+        count1 = 0
+        count2 = 0
+        count3 = 0
 
-        # options = ['-c', '-b', '-bg']
-        # # await ctx.send(f'{args[args.index("-c") + var]} is not an Number!')
-        #
-        # arg = []
-        #
-        # if [x for x in args if x == '-c']:
-        #     var = 1
-        #     while var != 4:
-        #         if args[args.index('-c') + var].isdigit():
-        #             arg.append(args[args.index('-c') + var])
-        #             var += 1
-        #         else:
-        #             await ctx.send('!create can only take numbers as Argument')
-        #             var = 4
+        if [x for x in args if x == '-b'] and count1 != 1:
+            var = 0
 
-        # return
+            while var != 1:
+                if args[args.index('-b') + var].isdigit():
+                    print('debuggen macht noch mehr spaß')
+                    var += 1
+                    arg1.append(args[args.index('-b') + var])
+                    count1 += 1
+                else:
+                    await ctx.send('!create can only take numbers as Argument')
+                    var = 1
 
+        if [x for x in args if x == '-c'] and count2 != 3:
+            var = 0
+            while var != 3:
+                if args[args.index('-c') + var].isdigit():
+                    print('debuggen macht noch mehr spaß')
+                    arg2.append(args[args.index('-c') + var].strip(','))
+                    var += 1
+                    count2 += 1
+                else:
+                    await ctx.send('!create can only take numbers as Argument')
+                    var = 4
+        return
+
+
+
+        now = f'etc/{datetime.now().strftime("%Y-%m%d_%H-%M")}.png'
+
+        create_code(str(args), now)
+        await ctx.send(file=discord.File(now))
+
+        os.remove(now)
 
 def setup(bot):
     bot.add_cog(Interaction(bot))
