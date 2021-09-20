@@ -1,6 +1,6 @@
 import argparse
 import os
-import time
+import random
 from datetime import datetime
 
 import discord
@@ -8,9 +8,11 @@ from API.qrcode.qr_creator import create_code
 from discord.ext import commands
 from discord.ext.commands import CommandNotFound
 
+from .etc.config import PREFIX
 
-#todo:
-# !create localfile delete after send
+
+# todo:
+
 
 class Interaction(commands.Cog):
     def __init__(self, bot):
@@ -50,8 +52,6 @@ class Interaction(commands.Cog):
 
     @commands.Command
     async def create(self, ctx, *args):
-        print(type(args[1]))
-
         options = ['-c', '-b', '-bg']
 
         arg1 = []
@@ -60,6 +60,14 @@ class Interaction(commands.Cog):
         count1 = 0
         count2 = 0
         count3 = 0
+
+        for option in options:
+            print(option, '|-', args)
+            if f'-{option}' in args:
+                print('cog')
+                if 'b' == option:
+                    print(option, '||')
+                    return
 
         if [x for x in args if x == '-b'] and count1 != 1:
             var = 0
@@ -71,7 +79,7 @@ class Interaction(commands.Cog):
                     arg1.append(args[args.index('-b') + var])
                     count1 += 1
                 else:
-                    await ctx.send('!create can only take numbers as Argument')
+                    await ctx.send(f'{PREFIX}create can only take numbers as Argument')
                     var = 1
 
         if [x for x in args if x == '-c'] and count2 != 3:
@@ -83,18 +91,17 @@ class Interaction(commands.Cog):
                     var += 1
                     count2 += 1
                 else:
-                    await ctx.send('!create can only take numbers as Argument')
+                    await ctx.send('create can only take numbers as Argument')
                     var = 4
         return
 
-
-
-        now = f'etc/{datetime.now().strftime("%Y-%m%d_%H-%M")}.png'
+        now = f'etc/{datetime.now().strftime("%Y-%m-%d_%H-%M-%S"), random.randint(1, 10000)}.png'
 
         create_code(str(args), now)
         await ctx.send(file=discord.File(now))
 
         os.remove(now)
+
 
 def setup(bot):
     bot.add_cog(Interaction(bot))
