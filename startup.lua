@@ -1,14 +1,27 @@
---[[ Open ]] --
+path1 = "DC-Bot/cogs/etc/config.py"
+path2 = "DC-Bot/API/config.py"
 
-config1_file = io.open("DC-Bot/cogs/etc/config.py", "w")
-config2_file = io.open("DC-Bot/API/config.py", "w")
+if not os.isfile(path1) then
 
--- [[ Write ]] --
+    config1_file = io.open(path1, "w")
+    config1_file:write("TOKEN = ''\nPREFIX = ''\nESCAPE = ''")
+    config1_file:close()
 
-config1_file:write("TOKEN = ''\nPREFIX = ''\nESCAPE = ''")
-config2_file:write("URLSCAN_TOKEN = ''\nIQAIR = ''")
+else
 
--- [[ Close ]] --
+    print("File ", path1, " already exists")
 
-config1_file:close()
-config2_file:close()
+end
+
+if not os.isfile(path2) then
+
+    config2_file = io.open(path2, "w")
+    config2_file:write("URLSCAN_TOKEN = ''\nIQAIR = ''")
+    config2_file:close()
+
+else
+
+    print("File ", path2, " already exists")
+
+end
+
