@@ -5,3 +5,9 @@
     <li><a href="https://urlscan.io/docs/api/">URLScan</a>
     <li><a href="https://www.iqair.com">IQAir</a>
 </ul>
+
+<h3>Upcomming <code>API's</code>
+<ul>
+    <li><a href="https://www.boredapi.com">BoredAPI</a>
+</ul>
+
