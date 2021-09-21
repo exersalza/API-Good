@@ -3,4 +3,11 @@
 <h3>List of <code>API's</code> that are included in this Project!</h3>
 <ul>
     <li><a href="https://urlscan.io/docs/api/">URLScan</a>
+    <li><a href="https://www.iqair.com">IQAir</a>
 </ul>
+
+<h3>Upcomming <code>API's</code></h3>
+<ul>
+    <li><a href="https://www.boredapi.com">BoredAPI</a>
+</ul>
+
