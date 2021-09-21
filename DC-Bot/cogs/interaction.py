@@ -8,10 +8,11 @@ from API.qrcode.qr_creator import create_code
 from discord.ext import commands
 from discord.ext.commands import CommandNotFound
 
-from .etc.config import PREFIX
+from .etc.config import PREFIX, ESCAPE
 
 
 # todo:
+#  IQAir, BoredAPI implement
 
 
 class Interaction(commands.Cog):
@@ -51,48 +52,36 @@ class Interaction(commands.Cog):
             return await ctx.send("Command/API nicht gefunden.")
 
     @commands.Command
-    async def create(self, ctx, *args):
-        options = ['-c', '-b', '-bg']
+    async def create(self, ctx, *args):  # argparse function
 
-        arg1 = []
-        arg2 = []
-        arg3 = []
-        count1 = 0
-        count2 = 0
-        count3 = 0
+        options = ['b', 'c', 'bg']
+
+        def digit_check(digit):
+            if not digit.isdigit():
+                assert 'error'
 
         for option in options:
             print(option, '|-', args)
-            if f'-{option}' in args:
-                print('cog')
-                if 'b' == option:
-                    print(option, '||')
-                    return
+            if f'{ESCAPE}{option}' in list(args):
 
-        if [x for x in args if x == '-b'] and count1 != 1:
-            var = 0
+                if 'c' == option:  # color argparser
+                    print(f'{ESCAPE}{option}', args[args.index(f'-{option}') + 1], args[args.index(f'-{option}') + 2],
+                          args[args.index(f'-{option}') + 3])
 
-            while var != 1:
-                if args[args.index('-b') + var].isdigit():
-                    print('debuggen macht noch mehr spaß')
-                    var += 1
-                    arg1.append(args[args.index('-b') + var])
-                    count1 += 1
-                else:
-                    await ctx.send(f'{PREFIX}create can only take numbers as Argument')
-                    var = 1
+                    var = 0
 
-        if [x for x in args if x == '-c'] and count2 != 3:
-            var = 0
-            while var != 3:
-                if args[args.index('-c') + var].isdigit():
-                    print('debuggen macht noch mehr spaß')
-                    arg2.append(args[args.index('-c') + var].strip(','))
-                    var += 1
-                    count2 += 1
-                else:
-                    await ctx.send('create can only take numbers as Argument')
-                    var = 4
+                    while var != 3:
+                        var += 1
+                        digit_check(args[args.index(f'{ESCAPE}{option}') + var])
+                        return
+
+                elif 'bg' == option:  # back-color argparser
+                    print(f'{ESCAPE}{option}', args[args.index(f'-{option}') + 1], args[args.index(f'-{option}') + 2],
+                          args[args.index(f'-{option}') + 3])
+
+                elif 'b' == option:  # box-size argparser
+                    print(f'{ESCAPE}{option}', args[args.index(f'-{option}') + 1])
+
         return
 
         now = f'etc/{datetime.now().strftime("%Y-%m-%d_%H-%M-%S"), random.randint(1, 10000)}.png'
