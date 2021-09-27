@@ -65,16 +65,21 @@ class Interaction(commands.Cog):
         for option in options:
             print(option, '|-', args)
             if f'{ESCAPE}{option}' in list(args):
-                print('co')
-
                 if 'c' == option:  # color argparser
                     var = 0
                     while var != 3:
                         var += 1
-                        val = int(args[args.index(f'{ESCAPE}{option}') + var].strip(','))
+                        try:
+                            val = int(args[args.index(f'{ESCAPE}{option}') + var].strip(','))
+                        except Exception:
+                            await ctx.send('Ein argument ist kein Integer')
+                            break
 
-                        if type(val) == int:
+                        if type(val) == int:  # Double check
                             colores.append(val)
+                            print('cogger')
+                        else:
+                            break
 
                 elif 'bg' == option:  # back-color argparser
                     print(f'{ESCAPE}{option}', args[args.index(f'-{option}') + 1], args[args.index(f'-{option}') + 2],
