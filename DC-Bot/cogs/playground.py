@@ -1,6 +1,7 @@
 from discord.ext import commands
 import argparse
 
+
 class Playground(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -14,7 +15,6 @@ class Playground(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         print("Playground starts")
-
 
 
 def setup(bot):

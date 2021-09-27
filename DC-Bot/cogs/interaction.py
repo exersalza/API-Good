@@ -54,26 +54,27 @@ class Interaction(commands.Cog):
     @commands.Command
     async def create(self, ctx, *args):  # argparse function
 
-        options = ['b', 'c', 'bg']
+        def converter(list):
+            return (*list, )
 
-        def digit_check(digit):
-            if not digit.isdigit():
-                assert 'error'
+        colores = []
+        bgcolores = []
+
+        options = ['b', 'c', 'bg']
 
         for option in options:
             print(option, '|-', args)
             if f'{ESCAPE}{option}' in list(args):
+                print('co')
 
                 if 'c' == option:  # color argparser
-                    print(f'{ESCAPE}{option}', args[args.index(f'-{option}') + 1], args[args.index(f'-{option}') + 2],
-                          args[args.index(f'-{option}') + 3])
-
                     var = 0
-
                     while var != 3:
                         var += 1
-                        digit_check(args[args.index(f'{ESCAPE}{option}') + var])
-                        return
+                        val = int(args[args.index(f'{ESCAPE}{option}') + var].strip(','))
+
+                        if type(val) == int:
+                            colores.append(val)
 
                 elif 'bg' == option:  # back-color argparser
                     print(f'{ESCAPE}{option}', args[args.index(f'-{option}') + 1], args[args.index(f'-{option}') + 2],

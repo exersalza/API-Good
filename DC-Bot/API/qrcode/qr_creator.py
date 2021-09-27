@@ -18,6 +18,6 @@ def create_code(data, fname, fcolor=(0, 0, 0), bgcolor=(255, 255, 255), box_size
     img.save(fname)
 
 
-# create_code('testing some data for exchange', (0, 0, 0), (0, 255, 255), 6)
+# create_code('testing some data for exchange', 'test.png', (0, 0, 0), (255, 255, 255), 6)
 
 
