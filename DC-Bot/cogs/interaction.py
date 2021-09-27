@@ -30,7 +30,7 @@ class Interaction(commands.Cog):
         print(f'Ready at {datetime.now().strftime("%H:%M:%S")}')
 
     @commands.Cog.listener()
-    async def on_message(self, message):
+    async def on_message(self, message):  # help for lonely commands :(
         # print(message.content)
         data = []
         d = {'s': self.create}
@@ -60,26 +60,34 @@ class Interaction(commands.Cog):
         colores = []
         bgcolores = []
 
+        color = (0, 0, 0)
+        bgcolor = (255, 255, 255)
+        box = 6
+
         options = ['b', 'c', 'bg']
+
+        async def parser(rounds, option):
+            var = 0
+            while var != rounds:
+                var += 1
+                try:
+                    val = int(args[args.index(f'{ESCAPE}{option}') + var].strip(','))
+                except Exception:
+                    await ctx.send('Ein argument ist kein Integer')
+                    break
+
+                if type(val) == int:  # Double check
+                    colores.append(val)
+                else:
+                    break
+
+            return converter(colores)
 
         for option in options:
             print(option, '|-', args)
             if f'{ESCAPE}{option}' in list(args):
                 if 'c' == option:  # color argparser
-                    var = 0
-                    while var != 3:
-                        var += 1
-                        try:
-                            val = int(args[args.index(f'{ESCAPE}{option}') + var].strip(','))
-                        except Exception:
-                            await ctx.send('Ein argument ist kein Integer')
-                            break
-
-                        if type(val) == int:  # Double check
-                            colores.append(val)
-                            print('cogger')
-                        else:
-                            break
+                    color = await parser(3, 'c')
 
                 elif 'bg' == option:  # back-color argparser
                     print(f'{ESCAPE}{option}', args[args.index(f'-{option}') + 1], args[args.index(f'-{option}') + 2],
@@ -88,11 +96,9 @@ class Interaction(commands.Cog):
                 elif 'b' == option:  # box-size argparser
                     print(f'{ESCAPE}{option}', args[args.index(f'-{option}') + 1])
 
-        return
-
         now = f'etc/{datetime.now().strftime("%Y-%m-%d_%H-%M-%S"), random.randint(1, 10000)}.png'
 
-        create_code(str(args), now)
+        create_code(str(args), now, color, bgcolor, box)
         await ctx.send(file=discord.File(now))
 
         os.remove(now)
