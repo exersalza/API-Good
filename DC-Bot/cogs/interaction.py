@@ -63,45 +63,58 @@ class Interaction(commands.Cog):
         color = (0, 0, 0)
         bgcolor = (255, 255, 255)
         box = 6
+        data = None
 
-        options = ['b', 'c', 'bg']
+        options = ['b', 'c', 'bg', 'd']
 
-        async def parser(rounds, option):
+        async def parser(rounds, option, validate):
             var = 0
             while var != rounds:
                 var += 1
                 try:
                     val = int(args[args.index(f'{ESCAPE}{option}') + var].strip(','))
-                except Exception:
+                except ValueError:
                     await ctx.send('Ein argument ist kein Integer')
                     break
 
                 if type(val) == int:  # Double check
-                    colores.append(val)
+                    validate.append(val)
                 else:
                     break
 
-            return converter(colores)
+            return converter(validate)
 
         for option in options:
-            print(option, '|-', args)
             if f'{ESCAPE}{option}' in list(args):
                 if 'c' == option:  # color argparser
-                    color = await parser(3, 'c')
+                    color = await parser(3, 'c', colores)
 
                 elif 'bg' == option:  # back-color argparser
-                    print(f'{ESCAPE}{option}', args[args.index(f'-{option}') + 1], args[args.index(f'-{option}') + 2],
-                          args[args.index(f'-{option}') + 3])
+                    bgcolor = await parser(3, 'bg', bgcolores)
+
+                elif 'd' == option:
+                    pass
 
                 elif 'b' == option:  # box-size argparser
-                    print(f'{ESCAPE}{option}', args[args.index(f'-{option}') + 1])
+                    try:
+                        coggers_box = int(args[args.index(f'{ESCAPE}{option}') + 1].strip(','))
+                        if coggers_box >= 100:
+                            await ctx.send('Das Box argument ist zu Groß, bitte wähle eine Zahl die unter 100 liegt')
+                            break
+                        else:
+                            box = coggers_box
 
-        now = f'etc/{datetime.now().strftime("%Y-%m-%d_%H-%M-%S"), random.randint(1, 10000)}.png'
+                    except ValueError:
+                        await ctx.send(ValueError)
+                        break
 
-        create_code(str(args), now, color, bgcolor, box)
-        await ctx.send(file=discord.File(now))
+        if data is not None:
+            now = f'etc/{datetime.now().strftime("%Y-%m-%d_%H-%M-%S"), random.randint(1, 9999999)}.png'
 
-        os.remove(now)
+            create_code(str(vdata), now, color, bgcolor, box)
+            await ctx.send(file=discord.File(now))
+
+            os.remove(now)
 
 
 def setup(bot):
