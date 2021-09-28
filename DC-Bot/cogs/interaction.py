@@ -54,11 +54,9 @@ class Interaction(commands.Cog):
     @commands.Command
     async def create(self, ctx, *args):  # argparse function
 
-        def converter(list):
-            return (*list, )
-
         colores = []
         bgcolores = []
+        dataris = []
 
         color = (0, 0, 0)
         bgcolor = (255, 255, 255)
@@ -82,6 +80,9 @@ class Interaction(commands.Cog):
                 else:
                     break
 
+            def converter(list):
+                return (*list,)
+
             return converter(validate)
 
         for option in options:
@@ -93,7 +94,11 @@ class Interaction(commands.Cog):
                     bgcolor = await parser(3, 'bg', bgcolores)
 
                 elif 'd' == option:
-                    pass
+                    for i in args:
+                        if not [i for t in options if t == i]:
+                            print('coggers')
+                        else:
+                            break
 
                 elif 'b' == option:  # box-size argparser
                     try:
