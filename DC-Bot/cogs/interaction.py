@@ -113,6 +113,9 @@ class Interaction(commands.Cog):
                         await ctx.send(ValueError)
                         break
 
+                elif 'h' == option:
+                    await ctx.send('Here comes a Spectacular help site!')
+
         if len(vdata):
 
             data = str(vdata).translate({ord(i): None for i in "[',]"})
