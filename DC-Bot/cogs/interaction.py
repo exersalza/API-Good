@@ -8,7 +8,7 @@ from API.qrcode.qr_creator import create_code
 from discord.ext import commands
 from discord.ext.commands import CommandNotFound
 
-from .etc.config import PREFIX, ESCAPE
+from .etc.config import ESCAPE
 
 
 # todo:
@@ -61,7 +61,6 @@ class Interaction(commands.Cog):
         color = (0, 0, 0)
         bgcolor = (255, 255, 255)
         box = 6
-        data = None
 
         options = ['b', 'c', 'bg', 'd']
 
@@ -94,9 +93,11 @@ class Interaction(commands.Cog):
                     bgcolor = await parser(3, 'bg', bgcolores)
 
                 elif 'd' == option:  # data argparser
-                    for i in args:
+                    for i in args[args.index('-d') + 1:]:
                         if not [i for t in options if t == i]:
+                            print('coggers')
                             vdata.append(i)
+
                         else:
                             break
 
@@ -112,11 +113,15 @@ class Interaction(commands.Cog):
                     except ValueError:
                         await ctx.send(ValueError)
                         break
+        print(vdata)
 
-        if data is not None:
+        if len(vdata):
+
+            data = str(vdata).translate({ord(i): None for i in "[',]"})
+            print('mehr coggers', data)
             now = f'etc/{datetime.now().strftime("%Y-%m-%d_%H-%M-%S"), random.randint(1, 9999999)}.png'
 
-            create_code(str(vdata), now, color, bgcolor, box)
+            create_code(str(data), now, color, bgcolor, box)
             await ctx.send(file=discord.File(now))
 
             os.remove(now)
