@@ -56,7 +56,7 @@ class Interaction(commands.Cog):
 
         colores = []
         bgcolores = []
-        dataris = []
+        vdata = []
 
         color = (0, 0, 0)
         bgcolor = (255, 255, 255)
@@ -93,10 +93,10 @@ class Interaction(commands.Cog):
                 elif 'bg' == option:  # back-color argparser
                     bgcolor = await parser(3, 'bg', bgcolores)
 
-                elif 'd' == option:
+                elif 'd' == option:  # data argparser
                     for i in args:
                         if not [i for t in options if t == i]:
-                            print('coggers')
+                            vdata.append(i)
                         else:
                             break
 

@@ -17,4 +17,6 @@ for filename in os.listdir("cogs"):
         bot.load_extension(f"cogs.{filename[:-3]}")
 
 # bot.load_extension('help')
-bot.run(TOKEN)
+
+if __name__ == '__main__':
+    bot.run(TOKEN)
