@@ -95,7 +95,6 @@ class Interaction(commands.Cog):
                 elif 'd' == option:  # data argparser
                     for i in args[args.index('-d') + 1:]:
                         if not [i for t in options if t == i]:
-                            print('coggers')
                             vdata.append(i)
 
                         else:
@@ -113,12 +112,10 @@ class Interaction(commands.Cog):
                     except ValueError:
                         await ctx.send(ValueError)
                         break
-        print(vdata)
 
         if len(vdata):
 
             data = str(vdata).translate({ord(i): None for i in "[',]"})
-            print('mehr coggers', data)
             now = f'etc/{datetime.now().strftime("%Y-%m-%d_%H-%M-%S"), random.randint(1, 9999999)}.png'
 
             create_code(str(data), now, color, bgcolor, box)
