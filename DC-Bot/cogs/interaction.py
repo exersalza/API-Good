@@ -49,7 +49,7 @@ class Interaction(commands.Cog):
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
         if isinstance(error, CommandNotFound):
-            return await ctx.send("Command/API nicht gefunden.")
+            return await ctx.send("Command/API not found.")
 
     @commands.Command
     async def create(self, ctx, *args):  # argparse function
@@ -62,7 +62,7 @@ class Interaction(commands.Cog):
         bgcolor = (255, 255, 255)
         box = 6
 
-        options = ['b', 'c', 'bg', 'd']
+        options = ['b', 'c', 'bg', 'd', 'h']
 
         async def parser(rounds, option, validate):
             var = 0
@@ -71,7 +71,7 @@ class Interaction(commands.Cog):
                 try:
                     val = int(args[args.index(f'{ESCAPE}{option}') + var].strip(','))
                 except ValueError:
-                    await ctx.send('Ein argument ist kein Integer')
+                    await ctx.send('One Argument is not an Integer')
                     break
 
                 if type(val) == int:  # Double check
@@ -94,9 +94,9 @@ class Interaction(commands.Cog):
 
                 elif 'd' == option:  # data argparser
                     for i in args[args.index('-d') + 1:]:
-                        if not [i for t in options if t == i]:
+                        if not [i for t in options if f'{ESCAPE}{t}' == i]:
+                            print(i, '-<')
                             vdata.append(i)
-
                         else:
                             break
 
@@ -104,7 +104,7 @@ class Interaction(commands.Cog):
                     try:
                         coggers_box = int(args[args.index(f'{ESCAPE}{option}') + 1].strip(','))
                         if coggers_box >= 100:
-                            await ctx.send('Das Box argument ist zu Groß, bitte wähle eine Zahl die unter 100 liegt')
+                            await ctx.send('The box Argument is too Large, please take a Number under 100')
                             break
                         else:
                             box = coggers_box
