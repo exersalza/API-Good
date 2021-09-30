@@ -5,6 +5,7 @@ from discord_components import DiscordComponents
 from discord.ext import commands
 from cogs.etc.config import TOKEN, PREFIX
 
+__version__ = '1.0'
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix=PREFIX, intents=intents,
