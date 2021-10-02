@@ -9,5 +9,6 @@
 <h3>Upcomming <code>API's</code></h3>
 <ul>
     <li><a href="https://www.boredapi.com">BoredAPI</a>
+    <li><a href="https://github.com/chubin/pyphoon">Pyphoon</a>
 </ul>
 
