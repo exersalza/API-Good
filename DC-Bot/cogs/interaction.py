@@ -93,9 +93,8 @@ class Interaction(commands.Cog):
                     bgcolor = await parser(3, 'bg', bgcolores)
 
                 elif 'd' == option:  # data argparser
-                    for i in args[args.index('-d') + 1:]:
+                    for i in args[args.index(f'{ESCAPE}d') + 1:]:
                         if not [i for t in options if f'{ESCAPE}{t}' == i]:
-                            print(i, '-<')
                             vdata.append(i)
                         else:
                             break
@@ -113,11 +112,24 @@ class Interaction(commands.Cog):
                         await ctx.send(ValueError)
                         break
 
-                elif 'h' == option:
-                    await ctx.send('Here comes a Spectacular help site!')
+                elif 'h' == option or 'help' == option:
+                    embed = discord.Embed(title=f'Help site for the Qr Code generator',
+                                          timestamp=datetime.utcnow(),
+                                          color=0x3498DB) \
+                        .add_field(name=f'{ESCAPE}d | Data Argument',
+                                   value=f'Usage: {ESCAPE}d Data*',
+                                   inline=False) \
+                        .add_field(name=f'{ESCAPE}c | Color Argument',
+                                   value=f'Usage: {ESCAPE}c Num, Num, Num',
+                                   inline=False) \
+                        .add_field(name=f'{ESCAPE}bg | Background Color Argument',
+                                   value=f'Usage: {ESCAPE}bg Num, Num, Num',
+                                   inline=False) \
+                        .set_thumbnail(url='https://cdn.discordapp.com/attachments/887032886006530111/894227663072395284/embed_pic.png')
+
+                    await ctx.send(embed=embed)
 
         if len(vdata):
-
             data = str(vdata).translate({ord(i): None for i in "[',]"})
             now = f'etc/{datetime.now().strftime("%Y-%m-%d_%H-%M-%S"), random.randint(1, 9999999)}.png'
 
