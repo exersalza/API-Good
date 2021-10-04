@@ -64,7 +64,7 @@ class Interaction(commands.Cog):
 
         options = ['b', 'c', 'bg', 'd', 'h']
 
-        async def parser(rounds, option, validate):
+        async def parser(rounds, option, validate, limit):
             var = 0
             while var != rounds:
                 var += 1
@@ -74,7 +74,7 @@ class Interaction(commands.Cog):
                     await ctx.send('One Argument is not an Integer')
                     break
 
-                if type(val) == int:  # Double check
+                if type(val) == int and not >= limit:  # Double check
                     validate.append(val)
                 else:
                     break
@@ -87,10 +87,10 @@ class Interaction(commands.Cog):
         for option in options:
             if f'{ESCAPE}{option}' in list(args):
                 if 'c' == option:  # color argparser
-                    color = await parser(3, 'c', colores)
+                    color = await parser(3, 'c', colores, 255)
 
                 elif 'bg' == option:  # back-color argparser
-                    bgcolor = await parser(3, 'bg', bgcolores)
+                    bgcolor = await parser(3, 'bg', bgcolores, 255)
 
                 elif 'd' == option:  # data argparser
                     for i in args[args.index(f'{ESCAPE}d') + 1:]:
