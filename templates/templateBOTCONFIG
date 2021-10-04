@@ -24,7 +24,7 @@ while foo != 3:
     CUR.execute("SELECT * FROM tokens WHERE Name='[NAME]'")
     config_shit.append(CUR.fetchone()[foo])
 
-TOKEN = ''
-PREFIX = ''
+TOKEN = config_shit[0]
+PREFIX = config_shit[1]
 ESCAPE = ''
 FLASK = False

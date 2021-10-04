@@ -2,13 +2,14 @@ import argparse
 import os
 import random
 from datetime import datetime
+from itertools import cycle
 
 import discord
 from API.qrcode.qr_creator import create_code
 from discord.ext import commands
 from discord.ext.commands import CommandNotFound
 
-from .etc.config import ESCAPE
+from .etc.config import ESCAPE, cycle_query
 
 
 # todo:
@@ -24,6 +25,8 @@ class Interaction(commands.Cog):
 
         self.parser.add_argument('-bg', '--bgcolor', type=str, help='Enter BG Color behind the Argument!')
         self.parser.add_argument('-c', '--color', type=str, help='Enter Color behind the Argument!')
+
+        self.cycle = cycle(cycle_query)
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -74,7 +77,7 @@ class Interaction(commands.Cog):
                     await ctx.send('One Argument is not an Integer')
                     break
 
-                if type(val) == int and not val >= limit:  # Double check
+                if type(val) == int and not val >= limit + 1:  # Double check
                     validate.append(val)
                 else:
                     await ctx.send(f'One Argument is not under or {limit}')
