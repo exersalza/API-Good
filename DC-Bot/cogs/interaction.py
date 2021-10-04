@@ -74,9 +74,10 @@ class Interaction(commands.Cog):
                     await ctx.send('One Argument is not an Integer')
                     break
 
-                if type(val) == int and not >= limit:  # Double check
+                if type(val) == int and not val >= limit:  # Double check
                     validate.append(val)
                 else:
+                    await ctx.send(f'One Argument is not under or {limit}')
                     break
 
             def converter(list):

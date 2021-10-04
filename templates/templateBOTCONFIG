@@ -5,8 +5,24 @@ PASSWORD = ''
 DB = ''
 USER = 'root'
 
+db = mysql.connector.connect(
+        host=HOST,
+        user=USER,
+        password=PASSWORD,
+        database=DB
+)
 
-## [DICSORD SHIT] ##
+CUR = db.cursor(buffered=True)
+
+## [BOT SHIT] ##
+
+config_shit = []
+foo = 1
+
+while foo != 3:
+    foo += 1
+    CUR.execute("SELECT * FROM tokens WHERE Name='API-Goose'")
+    config_shit.append(CUR.fetchone()[foo])
 
 TOKEN = ''
 PREFIX = ''
