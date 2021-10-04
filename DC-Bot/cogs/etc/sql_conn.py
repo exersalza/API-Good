@@ -1,7 +1,7 @@
 import mysql.connector
 
 from config import HOST, USER, PASSWORD, DB
-
+## Only working when not using .env ##
 
 try:
     db = mysql.connector.connect(
