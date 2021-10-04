@@ -4,6 +4,7 @@ import discord
 from discord_components import DiscordComponents
 from discord.ext import commands
 from cogs.etc.config import TOKEN, PREFIX
+from cogs.etc.flask_server import start_server
 
 
 intents = discord.Intents.all()
@@ -19,4 +20,6 @@ for filename in os.listdir("cogs"):
 # bot.load_extension('help')
 
 if __name__ == '__main__':
-    bot.run(TOKEN)
+  if flask:
+    start_server()
+  bot.run(TOKEN)
