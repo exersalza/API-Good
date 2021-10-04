@@ -1,0 +1,14 @@
+## [SQL SHIT] ##
+
+HOST = 'localhost'
+PASSWORD = ''
+DB = ''
+USER = 'root'
+
+
+## [DICSORD SHIT] ##
+
+TOKEN = ''
+PREFIX = ''
+ESCAPE = ''
+FLASK = False
