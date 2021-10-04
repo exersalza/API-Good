@@ -17,7 +17,7 @@ if option == 'standart' then
 
 elseif option == 'repl' then
   config1_file = io.open(path1, "w")
-  config1_file:write("import os\n\ndef token_grep(value):\n  return os.getenv(value)\n\nTOKEN = token_grep(value)\nPREFIX = ''\nESCAPE = ''\n")
+  config1_file:write("import os\n\ndef token_grep(value):\n  return os.getenv(value)\n\nTOKEN = token_grep('TOKEN')\nPREFIX = ''\nESCAPE = ''\n")
   config1_file:close()
 
   config2_file = io.open(path2, "w")
