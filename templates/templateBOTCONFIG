@@ -2,7 +2,7 @@
 
 HOST = 'localhost'
 PASSWORD = ''
-DB = ''
+DB = 'dcbot'
 USER = 'root'
 
 db = mysql.connector.connect(
@@ -21,7 +21,7 @@ foo = 1
 
 while foo != 3:
     foo += 1
-    CUR.execute("SELECT * FROM tokens WHERE Name='API-Goose'")
+    CUR.execute("SELECT * FROM tokens WHERE Name='[NAME]'")
     config_shit.append(CUR.fetchone()[foo])
 
 TOKEN = ''
