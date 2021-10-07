@@ -27,6 +27,7 @@ def create_app(test_config=None):
 
     return app
 
+# some changes
 def create_app():
     app = ...
     # existing code omitted
