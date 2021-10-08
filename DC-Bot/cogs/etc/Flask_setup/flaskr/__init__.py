@@ -23,6 +23,15 @@ def create_app(test_config=None):
 
     @app.route('/hello')
     def hello():
-        return 'Yeah fuck no, i go where i want to'
+        return '<h1>Yeah fuck no, i go where i want to</h1>'
+
+    return app
+
+def create_app():
+    app = ...
+    # existing code omitted
+
+    from . import db
+    db.init_app(app)
 
     return app
