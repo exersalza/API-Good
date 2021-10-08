@@ -41,11 +41,11 @@ animation = [
   "[        ]"
   ]
 
-i = 0
+''' i = 0
 Interaction.function('function')
 for i in range(1, 20):
     print(animation[i % len(animation)], end='\r')
-    time.sleep(.2)
+    time.sleep(.2) '''
 
 if __name__ == '__main__':
   if FLASK:
