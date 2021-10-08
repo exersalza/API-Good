@@ -14,7 +14,8 @@ from .etc.config import ESCAPE, cycle_query
 
 # todo:
 #  IQAir, BoredAPI implement
-
+global notcomplete
+notcomplete = True
 
 class Interaction(commands.Cog):
     def __init__(self, bot):
@@ -28,9 +29,13 @@ class Interaction(commands.Cog):
 
         self.cycle = cycle(cycle_query)
 
+    async def function(function):
+      print(function)
+
     @commands.Cog.listener()
     async def on_ready(self):
         print(f'Ready at {datetime.now().strftime("%H:%M:%S")}')
+        notcomplete = False
 
     @commands.Cog.listener()
     async def on_message(self, message):  # help for lonely commands :(
@@ -55,7 +60,7 @@ class Interaction(commands.Cog):
             return await ctx.send("Command/API not found.")
 
     @commands.Command
-    async def create(self, ctx, *args):  # argparse function
+    async def createqr(self, ctx, *args):  # argparse function
 
         colores = []
         bgcolores = []
