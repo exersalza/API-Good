@@ -4,7 +4,7 @@
 <ul>
     <li><a href="https://urlscan.io/docs/api/">URLScan</a>
     <li><a href="https://www.iqair.com">IQAir</a>
-    <li><a href="https://flask.com">Flask</a>
+    <li><a href="https://flask.palletsprojects.com/en/2.0.x/">Flask</a>
 </ul>
 
 <h3>Upcomming <code>API's/Packages</code></h3>
