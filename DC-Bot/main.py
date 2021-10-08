@@ -5,7 +5,7 @@ import time
 from discord_components import DiscordComponents
 from discord.ext import commands
 from cogs.etc.config import TOKEN, PREFIX, FLASK
-from cogs.etc.flaskr import start_server
+from cogs.etc.Flask_setup.flaskr import start_server
 from cogs.interaction import notcomplete, Interaction
 
 
