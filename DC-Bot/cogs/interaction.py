@@ -11,11 +11,11 @@ from discord.ext.commands import CommandNotFound
 
 from .etc.config import ESCAPE, cycle_query
 
-
 # todo:
 #  IQAir, BoredAPI implement
 global notcomplete
 notcomplete = True
+
 
 class Interaction(commands.Cog):
     def __init__(self, bot):

@@ -1,11 +1,12 @@
 import os
 import discord
 import time
+from threading import Thread
 
 from discord_components import DiscordComponents
 from discord.ext import commands
 from cogs.etc.config import TOKEN, PREFIX, FLASK
-from cogs.etc.Flask_setup.flaskr import start_server
+from cogs.etc.Flask_setup.start_server import start_server
 from cogs.interaction import notcomplete, Interaction
 
 
@@ -39,15 +40,14 @@ animation = [
   "[       =]",
   "[        ]",
   "[        ]"
-  ]
+]
 
-''' i = 0
-Interaction.function('function')
+i = 0
 for i in range(1, 20):
     print(animation[i % len(animation)], end='\r')
-    time.sleep(.2) '''
+    time.sleep(.2)
 
 if __name__ == '__main__':
-  if FLASK:
-    start_server()
-  bot.run(TOKEN)
+    if FLASK:
+        start_server()
+    bot.run(TOKEN)

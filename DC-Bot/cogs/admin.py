@@ -21,11 +21,15 @@ class Admin(commands.Cog):
 
     @commands.command()
     async def cycle(self, ctx, *args):
-        options = ['rm', 'add', 'u', 'sh']
+        options = ['rm', 'add', 'u', 'sh']  # remove, add, update, showlist
         for option in options:
             if f'{ESCAPE}{option}' in list(args):
                 if 'rm' == option:
-                    pass
+                    try:
+                        CUR.execute(f"DELETE FROM roll_text WHERE ID={args[args.index(f'{ESCAPE}rm')]}")
+                        await ctx.send(f'Die ID: `{args[args.index(f"{ESCAPE}")]}`')
+                    except Exception:
+                        pass
                 elif 'add' == option:
                     pass
                 elif 'u' == option:
@@ -39,11 +43,9 @@ class Admin(commands.Cog):
                         contents.append(val)
 
                     for i in contents:
+                        e.add_field(name=f'Value: `{i[1]}`', value=f'**ID: `{contents.index(i)}`**', inline=False)
 
-                        e.add_field(name=f'Value: `{i[1]}`', value=f'ID `{contents.index(i)}`', inline=False)
                     await ctx.send(embed=e)
-                else:
-                    await ctx.send('No Argument is given for cycle!')
 
 
 def setup(bot):
