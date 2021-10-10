@@ -2,6 +2,7 @@ import os
 import discord
 import time
 from threading import Thread
+from alive_progress import alive_bar
 
 from discord_components import DiscordComponents
 from discord.ext import commands
@@ -16,38 +17,28 @@ bot = commands.Bot(command_prefix=PREFIX, intents=intents,
 
 DiscordComponents(bot)
 
-for filename in os.listdir("cogs"):
-    if filename.endswith(".py") and filename != "__init__.py" and filename != "playground.py":
-        bot.load_extension(f"cogs.{filename[:-3]}")
+count = 0
 
-# bot.load_extension('help')
+for f in os.listdir('cogs'):
+    count += 1
 
-animation = [
-  "[        ]",
-  "[=       ]",
-  "[===     ]",
-  "[====    ]",
-  "[=====   ]",
-  "[======  ]",
-  "[======= ]",
-  "[========]",
-  "[ =======]",
-  "[  ======]",
-  "[   =====]",
-  "[    ====]",
-  "[     ===]",
-  "[      ==]",
-  "[       =]",
-  "[        ]",
-  "[        ]"
-]
 
-i = 0
-for i in range(1, 20):
-    print(animation[i % len(animation)], end='\r')
-    time.sleep(.2)
+def load():
+    with alive_bar(count) as bar:
+        for filename in os.listdir("cogs"):
+            if filename.endswith(".py") and filename != "__init__.py" and filename != "playground.py":
+                bot.load_extension(f"cogs.{filename[:-3]}")
+                bar()
+
+
+def unload():
+    for filename in os.listdir("cogs"):
+        if filename.endswith(".py") and filename != "__init__.py" and filename != "playground.py":
+            bot.unload_extension(f"cogs.{filename[:-3]}")
+
 
 if __name__ == '__main__':
+    load()
     if FLASK:
         start_server()
     bot.run(TOKEN)

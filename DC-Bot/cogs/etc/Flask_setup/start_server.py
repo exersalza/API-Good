@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def main():
-    return ''
+    return '<h1>Yeah fuck no, i go where i want to</h1>'
 
 
 def run():
