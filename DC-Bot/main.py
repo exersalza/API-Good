@@ -35,9 +35,11 @@ def load():
 
 
 def unload():
-    for filename in os.listdir("cogs"):
-        if filename.endswith(".py") and filename != "__init__.py" and filename != "playground.py":
-            bot.unload_extension(f"cogs.{filename[:-3]}")
+    with alive_bar(count) as bar:
+        for filename in os.listdir("cogs"):
+            if filename.endswith(".py") and filename != "__init__.py" and filename != "playground.py":
+                bot.unload_extension(f"cogs.{filename[:-3]}")
+                bar()
 
 
 if __name__ == '__main__':

@@ -3,11 +3,13 @@ import os
 import random
 from datetime import datetime
 from itertools import cycle
+from pyfiglet import Figlet
 
 import nextcord as discord
 from API.qrcode.qr_creator import create_code
 from nextcord.ext import commands
 from nextcord.ext.commands import CommandNotFound
+from nextcord import Guild
 
 from .etc.config import ESCAPE, cycle_query, PREFIX
 
@@ -52,7 +54,7 @@ class Interaction(commands.Cog):
         #             return
 
     @commands.Cog.listener()
-    async def on_command_error(self, ctx, error):
+    async def on_command_error(self, ctx, error):  # Function doing intense computing!
         if isinstance(error, CommandNotFound):
             return await ctx.send("Command/API not found.")
 
@@ -145,7 +147,49 @@ class Interaction(commands.Cog):
             await ctx.send(file=discord.File(now))
 
             os.remove(now)
+    
+
+    @commands.Command
+    async def banner(self, ctx, *args):
+        def create_banner(txt, font='slant'):
+            banner = Figlet(font=font).renderText(txt)
+            file = f'etc/{datetime.now().strftime("%Y-%m-%d_%H-%M-%S"), random.randint(1, 9999999)}.txt'
+
+            with open(file, 'w') as f:
+                for i in banner:
+                    f.write(i)
+                f.close()
+                
+
+            return file
 
 
+        option = ['server', 's', 'bot', 'b', 'custom', 'c']
+        for i in args:
+            if i.strip('-') in option:
+                i = i.strip('-')
+                if i == 'server' or i == 's':
+                    try:
+                        file = create_banner(ctx.message.guild.name)
+                        await ctx.send(file=discord.File(file))
+                        os.remove(file)
+                    except Exception as e:
+                        print('e')
+
+                elif i == 'bot' or i == 'b':
+                    pass
+
+                elif i == 'custom' or i == 'c':
+                    val = args[args.index(i) +1:]
+                    foo = ' '.join(map(str, list(val)))
+
+                    file = create_banner(foo)
+                    await ctx.send(file=discord.File(file))
+                    os.remove(file)
+
+                    break
+            else:
+                await ctx.reply(f'Argument: `{i}` is not Valid!')
+                break
 def setup(bot):
     bot.add_cog(Interaction(bot))
