@@ -1,8 +1,8 @@
 from itertools import cycle
 from datetime import datetime
 
-import discord
-from discord.ext import commands, tasks
+import nextcord as discord
+from nextcord.ext import commands, tasks
 
 from .etc.config import cycle_query, CUR, ESCAPE, EMBED_COLOR
 

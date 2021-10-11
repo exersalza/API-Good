@@ -1,26 +1,27 @@
 import os
-import discord
+import nextcord as discord
 import time
 from threading import Thread
 from alive_progress import alive_bar
+from pyfiglet import Figlet
 
-from discord_components import DiscordComponents
-from discord.ext import commands
+# from discord_components import DiscordComponents
+from nextcord.ext import commands
 from cogs.etc.config import TOKEN, PREFIX, FLASK
 from cogs.etc.Flask_setup.start_server import start_server
-from cogs.interaction import notcomplete, Interaction
 
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix=PREFIX, intents=intents,
                    help_command=None, description="Created by exersalza. Project: API-Goose")
 
-DiscordComponents(bot)
+# DiscordComponents(bot)
 
 count = 0
 
 for f in os.listdir('cogs'):
-    count += 1
+    if f.endswith(".py") and f != "__init__.py" and f != "playground.py":
+      count += 1
 
 
 def load():
@@ -38,7 +39,9 @@ def unload():
 
 
 if __name__ == '__main__':
+    print(Figlet(font='slant').renderText('API-Goose'))
     load()
     if FLASK:
+        print('/----------[ FLASK ]----------\\')
         start_server()
     bot.run(TOKEN)

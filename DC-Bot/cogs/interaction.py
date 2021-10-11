@@ -4,17 +4,15 @@ import random
 from datetime import datetime
 from itertools import cycle
 
-import discord
+import nextcord as discord
 from API.qrcode.qr_creator import create_code
-from discord.ext import commands
-from discord.ext.commands import CommandNotFound
+from nextcord.ext import commands
+from nextcord.ext.commands import CommandNotFound
 
-from .etc.config import ESCAPE, cycle_query
+from .etc.config import ESCAPE, cycle_query, PREFIX
 
 # todo:
 #  IQAir, BoredAPI implement
-global notcomplete
-notcomplete = True
 
 
 class Interaction(commands.Cog):
@@ -41,7 +39,6 @@ class Interaction(commands.Cog):
     async def on_message(self, message):  # help for lonely commands :(
         # print(message.content)
         data = []
-        d = {'s': self.create}
 
         # msg = message.content
         # self.parser.parse_args(msg.split())
@@ -59,8 +56,10 @@ class Interaction(commands.Cog):
         if isinstance(error, CommandNotFound):
             return await ctx.send("Command/API not found.")
 
-    @commands.Command
-    async def createqr(self, ctx, *args):  # argparse function
+    @commands.command(aliases=['qr'])
+    async def createqr(self, ctx, *args):  # with my own argparse function
+        if not len(args):
+          return await ctx.send(f'{PREFIX}createqr Needs an Argument, Try -h for help!')
 
         colores = []
         bgcolores = []
@@ -128,14 +127,14 @@ class Interaction(commands.Cog):
                         .add_field(name=f'{ESCAPE}d | Data Argument',
                                    value=f'Usage: {ESCAPE}d Data*',
                                    inline=False) \
-                        .add_field(name=f'{ESCAPE}c | Color Argument',
-                                   value=f'Usage: {ESCAPE}c Num, Num, Num',
+                        .add_field(name=f'{ESCAPE}c | Color Argument takes an RGB input',
+                                   value=f'Usage: {ESCAPE}c R, G, B',
                                    inline=False) \
-                        .add_field(name=f'{ESCAPE}bg | Background Color Argument',
-                                   value=f'Usage: {ESCAPE}bg Num, Num, Num',
+                        .add_field(name=f'{ESCAPE}bg | Background Color Argument Color Argument takes an RGB input',
+                                   value=f'Usage: {ESCAPE}bg R, G, B',
                                    inline=False) \
-                        .set_thumbnail(url='https://cdn.discordapp.com/attachments/887032886006530111/894227663072395284/embed_pic.png')
-
+                        .set_thumbnail(url='https://cdn.discordapp.com/attachments/887032886006530111/894227663072395284/embed_pic.png') \
+                        .set_footer(text='* is an duty argument')
                     await ctx.send(embed=embed)
 
         if len(vdata):

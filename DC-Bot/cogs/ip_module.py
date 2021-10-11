@@ -1,6 +1,6 @@
 import random
 
-from discord.ext import commands
+from nextcord.ext import commands
 
 
 class IpModule(commands.Cog):
