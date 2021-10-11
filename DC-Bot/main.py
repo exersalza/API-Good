@@ -42,7 +42,7 @@ def unload():
                 bar()
 
 
-def askinput(): # it doenst work for now
+''' def askinput(): # it doenst work for now
     while True:
         choice = input('1: Reload the Objects\n2: All alive Threads')
         if choice == '1':
@@ -51,7 +51,7 @@ def askinput(): # it doenst work for now
             pass
         else:
             return 0
-        return 1
+        return 1 '''
 
 
 if __name__ == '__main__':
@@ -64,18 +64,16 @@ if __name__ == '__main__':
         clear = lambda: os.system('clear')
         clear()
 
-    print(Figlet(font='slant').renderText('API-Goose'))
+    print(f'\u001b[36m{Figlet(font="slant").renderText("API-Goose")}\u001b[0m')
     load()
     if FLASK:
-        print('/----------[ FLASK ]----------\\')
+        print('\u001b[32m/----------[ FLASK ]----------\\\u001b[0m'.center(80))
         start_server()
     sleep(.5)
     if FLASK:
-        print('\\----------[ FLASK ]----------/')
+        print('\u001b[32m\\----------[ FLASK ]----------/\u001b[0m'.center(80))
     
-    ask = Thread(target=askinput())
-    Client = Thread(target=bot.run(TOKEN), args=(10,))
-    # ask.start()
+    Client = Thread(target=bot.run(TOKEN))
     Client.start()
 
     

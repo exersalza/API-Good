@@ -2,6 +2,7 @@ from itertools import cycle
 from datetime import datetime
 
 import nextcord as discord
+from nextcord import Message
 from nextcord.ext import commands, tasks
 
 from .etc.config import cycle_query, CUR, ESCAPE, EMBED_COLOR
@@ -47,6 +48,13 @@ class Admin(commands.Cog):
 
                     await ctx.send(embed=e)
 
+    @commands.Command
+    async def poll(self, ctx, *args):
+        e1 = discord.Embed(title='<Enter a Title>', color=EMBED_COLOR)
+        e1.set_footer(text='--Poll Wizard--')
+
+        msg = await self.bot.wait_for('message', check=lambda message: message.author == ctx.author)
+        print(msg.content)
 
 def setup(bot):
     bot.add_cog(Admin(bot))
