@@ -58,7 +58,7 @@ class Interaction(commands.Cog):
         if isinstance(error, CommandNotFound):
             return await ctx.send("Command/API not found.")
 
-    @commands.command(aliases=['qr'])
+    @commands.Command
     async def createqr(self, ctx, *args):  # with my own argparse function
         if not len(args):
           return await ctx.send(f'{PREFIX}createqr Needs an Argument, Try -h for help!')
@@ -124,7 +124,7 @@ class Interaction(commands.Cog):
 
                 elif 'h' == option or 'help' == option:
                     embed = discord.Embed(title=f'Help site for the Qr Code generator',
-                                          timestamp=datetime.utcnow(),
+                                          timestamp=datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f'),
                                           color=0x3498DB) \
                         .add_field(name=f'{ESCAPE}d | Data Argument',
                                    value=f'Usage: {ESCAPE}d Data*',
