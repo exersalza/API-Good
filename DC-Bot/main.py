@@ -1,6 +1,8 @@
 import os
 import nextcord as discord
-import time
+import platform
+
+from time import sleep
 from threading import Thread
 from alive_progress import alive_bar
 from pyfiglet import Figlet
@@ -39,9 +41,21 @@ def unload():
 
 
 if __name__ == '__main__':
+    platform = platform.system()
+
+    if platform == 'Windows':
+        clear = lambda: os.system('cls')
+        clear()
+    elif platform == 'Linux':
+        clear = lambda: os.system('clear')
+        clear()
+
     print(Figlet(font='slant').renderText('API-Goose'))
     load()
     if FLASK:
         print('/----------[ FLASK ]----------\\')
         start_server()
+    sleep(.5)
+    if FLASK:
+        print('\\----------[ FLASK ]----------/')
     bot.run(TOKEN)
