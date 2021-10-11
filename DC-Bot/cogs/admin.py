@@ -84,8 +84,17 @@ class Admin(commands.Cog):
 				poll_query.append(f'{msg.content}\n')
 			else:
 				break
-		print(poll_query)
+
+		embed = discord.Embed(title=poll_query[0], color=EMBED_COLOR, timestamp=datetime.utcnow())
+		
+		await ctx.send('You\'r current Poll looks like', embed=embed)
 
 
+
+		#
+		#
+		#	USE DISCORD COMPONENTs
+		#	
+		#
 def setup(bot):
     bot.add_cog(Admin(bot))
