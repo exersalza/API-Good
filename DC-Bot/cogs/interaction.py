@@ -177,7 +177,7 @@ class Interaction(commands.Cog):
                         print('e')
 
                 elif i == 'bot' or i == 'b':
-                    pass
+                    await ctx.send(file=discord.File('etc/templateBanner.txt'))
 
                 elif i == 'custom' or i == 'c':
                     val = args[args.index(i) +1:]

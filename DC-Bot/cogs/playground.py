@@ -1,6 +1,6 @@
 from pyfiglet import Figlet
 
-banner = Figlet(font='slant').renderText('ctx.message.guild.name')
+banner = Figlet(font='slant').renderText('API-Goose')
 print(str(banner))
 with open('test.txt', 'w') as f:
     for i in banner:

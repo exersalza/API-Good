@@ -42,6 +42,18 @@ def unload():
                 bar()
 
 
+def askinput(): # it doenst work for now
+    while True:
+        choice = input('1: Reload the Objects\n2: All alive Threads')
+        if choice == '1':
+            pass
+        if choice == '2':
+            pass
+        else:
+            return 0
+        return 1
+
+
 if __name__ == '__main__':
     platform = platform.system()
 
@@ -60,4 +72,11 @@ if __name__ == '__main__':
     sleep(.5)
     if FLASK:
         print('\\----------[ FLASK ]----------/')
-    bot.run(TOKEN)
+    
+    ask = Thread(target=askinput())
+    Client = Thread(target=bot.run(TOKEN), args=(10,))
+    # ask.start()
+    Client.start()
+
+    
+    
