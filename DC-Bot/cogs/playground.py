@@ -1,9 +1,7 @@
-from pyfiglet import Figlet
-
-banner = Figlet(font='slant').renderText('API-Goose')
-print(str(banner))
-with open('test.txt', 'w') as f:
-    for i in banner:
-        f.write(i)
-
-    f.close()
+check = True
+def foo():
+  while check:
+    print('cogörs')
+    break
+  print('run until you broke me :(')
+foo()

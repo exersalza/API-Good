@@ -50,11 +50,41 @@ class Admin(commands.Cog):
 
     @commands.Command
     async def poll(self, ctx, *args):
-        e1 = discord.Embed(title='<Enter a Title>', color=EMBED_COLOR)
-        e1.set_footer(text='--Poll Wizard--')
+        poll_query = []
+
+        await ctx.send('**Welcome to the Poll-Wizard**\nPlease enter your title below')
+        msg = await self.bot.wait_for('message', check=lambda message: message.author == ctx.author)
+        poll_query.append(msg.content)
+
+        await ctx.send(f'**Your new title is: `{msg.content}`**\nPlease enter if the Poll is should be Anonym (True or False)')
+        
+        check = True
+        while check:
+            msg = await self.bot.wait_for('message', check=lambda message: message.author == ctx.author)
+            
+            if msg.content.lower() == 'true':
+                poll_query.append(msg.content)
+                await ctx.send('**The Poll is Anonym**\nPlease enter the Columns for the Poll')
+                break
+
+            elif msg.content.lower() == 'false':
+                poll_query.append(msg.content)
+                await ctx.send('**The Poll is not Anonym**\nPlease enter the Columns for the Poll')
+                break
+
+            else:
+                await ctx.send(f'Please type True or False and not: `{msg.content}`')
 
         msg = await self.bot.wait_for('message', check=lambda message: message.author == ctx.author)
-        print(msg.content)
+  
+
+    @commands.Command
+    async def edit_server(self, ctx, *args):
+        ...
+        
+
+
+
 
 def setup(bot):
     bot.add_cog(Admin(bot))
