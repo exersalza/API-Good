@@ -1,5 +1,5 @@
 import os
-import nextcord as discord
+import discord as discord
 import platform
 
 from time import sleep
@@ -8,7 +8,7 @@ from alive_progress import alive_bar
 from pyfiglet import Figlet
 
 # from discord_components import DiscordComponents
-from nextcord.ext import commands
+from discord.ext import commands
 from cogs.etc.config import TOKEN, PREFIX, FLASK
 from cogs.etc.Flask_setup.start_server import start_server
 

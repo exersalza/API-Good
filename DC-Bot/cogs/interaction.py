@@ -3,15 +3,15 @@ import os
 import random
 from datetime import datetime
 from itertools import cycle
+
+import discord as discord
+from API.qrcode.qr_creator import create_code
+from discord.ext import commands
+from discord.ext.commands import CommandNotFound
 from pyfiglet import Figlet
 
-import nextcord as discord
-from API.qrcode.qr_creator import create_code
-from nextcord.ext import commands
-from nextcord.ext.commands import CommandNotFound
-from nextcord import Guild
-
 from .etc.config import ESCAPE, cycle_query, PREFIX
+
 
 # todo:
 #  IQAir, BoredAPI implement
@@ -30,7 +30,7 @@ class Interaction(commands.Cog):
         self.cycle = cycle(cycle_query)
 
     async def function(function):
-      print(function)
+        print(function)
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -61,7 +61,7 @@ class Interaction(commands.Cog):
     @commands.Command
     async def createqr(self, ctx, *args):  # with my own argparse function
         if not len(args):
-          return await ctx.send(f'{PREFIX}createqr Needs an Argument, Try -h for help!')
+            return await ctx.send(f'{PREFIX}createqr Needs an Argument, Try -h for help!')
 
         colores = []
         bgcolores = []
@@ -124,7 +124,7 @@ class Interaction(commands.Cog):
 
                 elif 'h' == option or 'help' == option:
                     embed = discord.Embed(title=f'Help site for the Qr Code generator',
-                                          timestamp=datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f'),
+                                          timestamp=datetime.now(),
                                           color=0x3498DB) \
                         .add_field(name=f'{ESCAPE}d | Data Argument',
                                    value=f'Usage: {ESCAPE}d Data*',
@@ -135,7 +135,8 @@ class Interaction(commands.Cog):
                         .add_field(name=f'{ESCAPE}bg | Background Color Argument Color Argument takes an RGB input',
                                    value=f'Usage: {ESCAPE}bg R, G, B',
                                    inline=False) \
-                        .set_thumbnail(url='https://cdn.discordapp.com/attachments/887032886006530111/894227663072395284/embed_pic.png') \
+                        .set_thumbnail(
+                        url='https://cdn.discordapp.com/attachments/887032886006530111/894227663072395284/embed_pic.png') \
                         .set_footer(text='* is an duty argument')
                     await ctx.send(embed=embed)
 
@@ -147,7 +148,6 @@ class Interaction(commands.Cog):
             await ctx.send(file=discord.File(now))
 
             os.remove(now)
-    
 
     @commands.Command
     async def banner(self, ctx, *args):
@@ -159,10 +159,8 @@ class Interaction(commands.Cog):
                 for i in banner:
                     f.write(i)
                 f.close()
-                
 
             return file
-
 
         option = ['server', 's', 'bot', 'b', 'custom', 'c']
         for i in args:
@@ -180,7 +178,7 @@ class Interaction(commands.Cog):
                     await ctx.send(file=discord.File('etc/templateBanner.txt'))
 
                 elif i == 'custom' or i == 'c':
-                    val = args[args.index(i) +1:]
+                    val = args[args.index(i) + 1:]
                     foo = ' '.join(map(str, list(val)))
 
                     file = create_banner(foo)
@@ -191,5 +189,7 @@ class Interaction(commands.Cog):
             else:
                 await ctx.reply(f'Argument: `{i}` is not Valid!')
                 break
+
+
 def setup(bot):
     bot.add_cog(Interaction(bot))
