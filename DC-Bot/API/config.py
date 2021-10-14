@@ -1,0 +1,2 @@
+URLSCAN_TOKEN = ''
+IQAIR = ''
