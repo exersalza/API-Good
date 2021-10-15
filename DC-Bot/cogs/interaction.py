@@ -10,7 +10,7 @@ from discord.ext import commands
 from discord.ext.commands import CommandNotFound
 from pyfiglet import Figlet
 
-from .etc.config import ESCAPE, cycle_query, PREFIX
+from .etc.config import ESCAPE, cycle_shit, PREFIX
 
 
 # todo:
@@ -27,7 +27,7 @@ class Interaction(commands.Cog):
         self.parser.add_argument('-bg', '--bgcolor', type=str, help='Enter BG Color behind the Argument!')
         self.parser.add_argument('-c', '--color', type=str, help='Enter Color behind the Argument!')
 
-        self.cycle = cycle(cycle_query)
+        self.cycle = cycle(cycle_shit)
 
     async def function(function):
         print(function)
@@ -35,7 +35,6 @@ class Interaction(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         print(f'Ready at {datetime.now().strftime("%H:%M:%S")}')
-        notcomplete = False
 
     @commands.Cog.listener()
     async def on_message(self, message):  # help for lonely commands :(
