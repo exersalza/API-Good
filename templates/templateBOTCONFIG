@@ -1,3 +1,4 @@
+import mysql.connector
 ## [SQL SHIT] ##
 
 HOST = 'localhost'
@@ -19,12 +20,15 @@ CUR = db.cursor(buffered=True)
 config_shit = []
 foo = 1
 
-while foo != 3:
+for _ in range(2):
     foo += 1
-    CUR.execute("SELECT * FROM tokens WHERE Name='[NAME]'")
+    CUR.execute("SELECT * FROM tokens WHERE Name='API-Goose'")
     config_shit.append(CUR.fetchone()[foo])
 
 TOKEN = config_shit[0]
 PREFIX = config_shit[1]
-ESCAPE = ''
+ESCAPE = '-'
 FLASK = False
+EMBED_COLOR = 0x0b1294
+
+cycle_query = []
