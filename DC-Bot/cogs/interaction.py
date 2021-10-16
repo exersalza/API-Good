@@ -53,6 +53,7 @@ class Interaction(commands.Cog):
     async def on_command_error(self, ctx, error):  # Function doing intense computing!
         if isinstance(error, CommandNotFound):
             return await ctx.send("Command/API not found.")
+        raise error
 
     @commands.Command
     async def createqr(self, ctx, *args):  # with my own argparse function
