@@ -36,14 +36,15 @@ class Admin(commands.Cog):
                     pass
                 elif 'sh' == option:
                     e = discord.Embed(title='Show cycle Options!', color=EMBED_COLOR, timestamp=datetime.utcnow())
-                    CUR.execute("SELECT * FROM roll_text WHERE Name='API-Goose'")
 
-                    contents = []
-                    for val in CUR.fetchall():
-                        contents.append(val)
+                    CUR.execute("SELECT roll_txt_val FROM tokens WHERE Name='API-Goose'")
+                    counter = CUR.fetchone()[0]
 
-                    for i in contents:
-                        e.add_field(name=f'Value: `{i[1]}`', value=f'**ID: `{contents.index(i)}`**', inline=False)
+                    CUR.execute("SELECT Text FROM roll_text WHERE Name='API-Goose'")
+                    contents = [item[0] for item in CUR.fetchall()]
+
+                    for i in contents: # here we was
+                        e.add_field(name=f'Value: `{contents[contents.index(i)]}`', value=f'**ID: `{contents.index(i)}`**', inline=False)
 
                 await ctx.send(embed=e)
 

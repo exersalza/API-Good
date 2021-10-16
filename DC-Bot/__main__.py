@@ -72,7 +72,7 @@ if __name__ == '__main__':
     sleep(.5)
     if FLASK:
         print('\u001b[32m\\----------[ FLASK ]----------/\u001b[0m'.center(80))
-    
+    raise AssertionError('go fuck yourself at admin:45')
     Client = Thread(target=bot.run(TOKEN))
     Client.start()
 
