@@ -7,7 +7,7 @@ from threading import Thread
 from alive_progress import alive_bar
 from pyfiglet import Figlet
 
-# from discord_components import DiscordComponents
+from discord_components import DiscordComponents
 from discord.ext import commands
 from cogs.etc.config import TOKEN, PREFIX, FLASK
 from cogs.etc.Flask_setup.start_server import start_server
@@ -17,7 +17,7 @@ intents = discord.Intents.all()
 bot = commands.Bot(command_prefix=PREFIX, intents=intents,
                    help_command=None, description="Created by exersalza. Project: API-Goose")
 
-# DiscordComponents(bot)
+DiscordComponents(bot)
 
 count = 0
 

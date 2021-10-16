@@ -8,6 +8,7 @@ chardet==4.0.0
 click==8.0.3
 colorama==0.4.4
 discord==1.7.3
+discord-components==2.1.2
 discord.py==1.7.3
 Flask==2.0.2
 grapheme==0.6.0
