@@ -29,9 +29,6 @@ class Interaction(commands.Cog):
 
         self.cycle = cycle(cycle_shit)
 
-    async def function(function):
-        print(function)
-
     @commands.Cog.listener()
     async def on_ready(self):
         print(f'Ready at {datetime.now().strftime("%H:%M:%S")}')

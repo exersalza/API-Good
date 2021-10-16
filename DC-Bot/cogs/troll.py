@@ -1,7 +1,7 @@
 import discord
+import youtube_dl
 from discord.ext import commands
-from discord.errors import HTTPException
-import asyncio
+
 
 # todo:
 #   Voice troll option
@@ -11,36 +11,44 @@ class Troll(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(aliases=['MONKEY', 'Monkie'])
+    @commands.command()
     async def monkie(self, ctx):
-        # grab the user who sent the command
-        print('1')
+        if ctx.author.voice is None:
+            await ctx.send('Your not in a Voice channel!')
+
         voice_channel = ctx.author.voice.channel
-        print('1+')
-        print('2')
-        # only play music if user is in a voice channel
-        # grab user's voice channel
-        print('self.before')
-        await ctx.send('User is in channel: ' + voice_channel.name)
-        print('self.channel')
-        # create StreamPlayer
-        vc = await voice_channel.connect()
-        print('3')
-        ctx.play('etc/sound/Monkie.mp3')
-        print('4')
+        if ctx.voice_client is None:
+            await voice_channel.connect()
+        else:
+            await ctx.voice_client.move_to(voice_channel)
 
-        await vc.disconnect()
+    @commands.command()
+    async def play(self, ctx, url):
+        FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
+                          'options': '-vn'}
+        YDL_OPTIONS = {'format': 'bestaudio'}
 
+        vc = ctx.voice_client
+        print(1)
 
-    @commands.Command
+        with youtube_dl.YoutubeDL(YDL_OPTIONS) as ydl:
+            info = ydl.extract_info(url, download=False)
+            print(2)
+            url2 = info['formats'][0]['url']
+            print(3)
+            source = await discord.FFmpegOpusAudio.from_probe(url2, **FFMPEG_OPTIONS)
+            print(4)
+            vc.play(source)
+            print(5)
+
+    @commands.command()
     async def join(self, ctx):
         print('joiuner')
         channel = ctx.author.voice.channel
         print(channel)
         await channel.connect()
 
-
-    @commands.Command
+    @commands.command()
     async def leave(self, ctx):
         await ctx.voice_client.disconnect()
 
