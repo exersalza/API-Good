@@ -1,0 +1,8 @@
+CREATE TABLE `counter` (
+	`Bluescreen` INT(11) NULL DEFAULT NULL,
+	`Noice` INT(11) NULL DEFAULT NULL,
+	`cogörs` INT(11) NULL DEFAULT NULL
+)
+COLLATE='utf8mb4_general_ci'
+ENGINE=InnoDB
+;
