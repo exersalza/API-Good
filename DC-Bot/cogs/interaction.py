@@ -4,13 +4,13 @@ import random
 from datetime import datetime
 from itertools import cycle
 
-import discord as discord
+import nextcord
 from API.qrcode.qr_creator import create_code
-from discord.ext import commands
-from discord.ext.commands import CommandNotFound
+from nextcord.ext import commands
+from nextcord.ext.commands import CommandNotFound
 from pyfiglet import Figlet
 
-from .etc.config import ESCAPE, cycle_shit, PREFIX
+from .etc.config import ESCAPE, PREFIX
 
 
 # todo:
@@ -26,12 +26,6 @@ class Interaction(commands.Cog):
 
         self.parser.add_argument('-bg', '--bgcolor', type=str, help='Enter BG Color behind the Argument!')
         self.parser.add_argument('-c', '--color', type=str, help='Enter Color behind the Argument!')
-
-        self.cycle = cycle(cycle_shit)
-
-    @commands.Cog.listener()
-    async def on_ready(self):
-        print(f'Ready at {datetime.now().strftime("%H:%M:%S")}')
 
     @commands.Cog.listener()
     async def on_message(self, message):  # help for lonely commands :(
@@ -120,7 +114,7 @@ class Interaction(commands.Cog):
                         break
 
                 elif 'h' == option or 'help' == option:
-                    embed = discord.Embed(title=f'Help site for the Qr Code generator',
+                    embed = nextcord.Embed(title=f'Help site for the Qr Code generator',
                                           timestamp=datetime.now(),
                                           color=0x3498DB) \
                         .add_field(name=f'{ESCAPE}d | Data Argument',
@@ -142,7 +136,7 @@ class Interaction(commands.Cog):
             now = f'etc/{datetime.now().strftime("%Y-%m-%d_%H-%M-%S"), random.randint(1, 9999999)}.png'
 
             create_code(str(data), now, color, bgcolor, box)
-            await ctx.send(file=discord.File(now))
+            await ctx.send(file=nextcord.File(now))
 
             os.remove(now)
 
@@ -166,20 +160,20 @@ class Interaction(commands.Cog):
                 if i == 'server' or i == 's':
                     try:
                         file = create_banner(ctx.message.guild.name)
-                        await ctx.send(file=discord.File(file))
+                        await ctx.send(file=nextcord.File(file))
                         os.remove(file)
                     except Exception as e:
                         print('e')
 
                 elif i == 'bot' or i == 'b':
-                    await ctx.send(file=discord.File('etc/templateBanner.txt'))
+                    await ctx.send(file=nextcord.File('etc/templateBanner.txt'))
 
                 elif i == 'custom' or i == 'c':
                     val = args[args.index(i) + 1:]
                     foo = ' '.join(map(str, list(val)))
 
                     file = create_banner(foo)
-                    await ctx.send(file=discord.File(file))
+                    await ctx.send(file=nextcord.File(file))
                     os.remove(file)
 
                     break

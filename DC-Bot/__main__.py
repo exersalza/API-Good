@@ -1,5 +1,5 @@
 import os
-import discord as discord
+import nextcord
 import platform
 
 from time import sleep
@@ -8,12 +8,12 @@ from alive_progress import alive_bar
 from pyfiglet import Figlet
 
 from discord_components import DiscordComponents
-from discord.ext import commands
+from nextcord.ext import commands
 from cogs.etc.config import TOKEN, PREFIX, FLASK
 from cogs.etc.Flask_setup.start_server import start_server
 
 
-intents = discord.Intents.all()
+intents = nextcord.Intents.all()
 bot = commands.Bot(command_prefix=PREFIX, intents=intents,
                    help_command=None, description="Created by exersalza. Project: API-Goose")
 
@@ -72,7 +72,6 @@ if __name__ == '__main__':
     sleep(.5)
     if FLASK:
         print('\u001b[32m\\----------[ FLASK ]----------/\u001b[0m'.center(80))
-    raise AssertionError('go fuck yourself at admin:45')
     Client = Thread(target=bot.run(TOKEN))
     Client.start()
 

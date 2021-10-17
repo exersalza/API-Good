@@ -1,7 +1,7 @@
 import time
 
-import discord
-from discord.ext import commands
+import nextcord
+from nextcord.ext import commands
 
 
 class Troll(commands.Cog):
@@ -14,8 +14,8 @@ class Troll(commands.Cog):
         await channel.connect()
 
         guild = ctx.guild
-        voice_client = discord.utils.get(self.bot.voice_clients, guild=guild)
-        audio_source = discord.FFmpegPCMAudio('E:\python\API-Goose\DC-Bot\cogs\etc\sound\Monkie.wav')
+        voice_client = nextcord.utils.get(self.bot.voice_clients, guild=guild)
+        audio_source = nextcord.FFmpegPCMAudio('E:\python\API-Goose\DC-Bot\cogs\etc\sound\Monkie.wav')
         if not voice_client.is_playing():
             voice_client.play(audio_source, after=None)
             time.sleep(1)

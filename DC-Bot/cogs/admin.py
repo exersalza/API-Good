@@ -1,22 +1,30 @@
 from datetime import datetime
 from itertools import cycle
 
-import discord as discord
-from discord.ext import commands, tasks
+import nextcord
+from nextcord.ext import commands, tasks
 
-from .etc.config import cycle_shit, CUR, ESCAPE, EMBED_COLOR
+from .etc.config import query, CUR, ESCAPE, EMBED_COLOR
 
 
 class Admin(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+        cycle_shit = []
+        query(cycle_shit)
         self.status = cycle(cycle_shit)
+
+    @commands.Cog.listener()
+    async def on_ready(self):
+        print(f'Ready at {datetime.now().strftime("%H:%M:%S")}')
+
+        await self.status_task.start()
 
     @tasks.loop(seconds=30)
     async def status_task(self):
-        await self.bot.change_presence(status=discord.Status.online,
-                                       activity=discord.Activity(type=discord.ActivityType.playing,
+        await self.bot.change_presence(status=nextcord.Status.idle,
+                                       activity=nextcord.Activity(type=nextcord.ActivityType.watching,
                                                                  name=next(self.status)))
 
     @commands.command()
@@ -35,16 +43,17 @@ class Admin(commands.Cog):
                 elif 'u' == option:
                     pass
                 elif 'sh' == option:
-                    e = discord.Embed(title='Show cycle Options!', color=EMBED_COLOR, timestamp=datetime.utcnow())
+                    e = nextcord.Embed(title='Show cycle Options!', color=EMBED_COLOR, timestamp=datetime.utcnow())
 
-                    CUR.execute("SELECT roll_txt_val FROM tokens WHERE Name='API-Goose'")
-                    counter = CUR.fetchone()[0]
+                    CUR.execute("SELECT ID, Text FROM roll_text WHERE Name='API-Goose'")
+                    fetcher = CUR.fetchall()
 
-                    CUR.execute("SELECT Text FROM roll_text WHERE Name='API-Goose'")
-                    contents = [item[0] for item in CUR.fetchall()]
+                    id_ = [item[0] for item in fetcher]
+                    value = [item[1] for item in fetcher]
 
-                    for i in contents: # here we was
-                        e.add_field(name=f'Value: `{contents[contents.index(i)]}`', value=f'**ID: `{contents.index(i)}`**', inline=False)
+                    for i in id_:  # here we was
+                        e.add_field(name=f'Value: `{contents[contents.index(i)]}`',
+                                    value=f'**ID: `{contents.index(i)}`**', inline=False)
 
                 await ctx.send(embed=e)
 
