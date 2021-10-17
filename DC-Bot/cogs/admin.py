@@ -29,23 +29,30 @@ class Admin(commands.Cog):
 
     @commands.command()
     async def cycle(self, ctx, *args):
-        options = ['rm', 'add', 'u', 'sh']  # remove, add, update, showlist
+        options = ['rm', 'add', 'sh']  # remove, add, update, showlist
         for option in options:
             if f'{ESCAPE}{option}' in list(args):
                 if 'rm' == option:
                     try:
-                        foo = args[args.index(f'{ESCAPE}rm') + 1]
+                        id_ = args[args.index(f'{ESCAPE}rm') + 1]
                     except IndexError:
                         await ctx.send('Please enter a ID to delete')
                         break
-                    CUR.execute(f"DELETE FROM roll_text WHERE ID='{foo}'")
+                    CUR.execute(f"DELETE FROM roll_text WHERE ID='{id_}'")
                     db.commit()
-                    await ctx.send(f"Die ID: `{foo}` wurde Gelöscht!")
+                    await ctx.send(f"Die ID: `{id_}` wurde Gelöscht!")
 
                 elif 'add' == option:
-                    pass
-                elif 'u' == option:
-                    pass
+                    try:
+                        ind = args.index(f'{ESCAPE}add')
+                        entry = ' '.join(args[ind + 1:])
+                    except IndexError:
+                        await ctx.send('Please NOTHING')
+                        break
+                    CUR.execute(f"INSERT INTO roll_text(Text, Name) VALUES ('{entry}', 'API-Goose')")
+                    db.commit()
+                    await ctx.send(f"Der Eintrag: `{entry}` wurde erstellt!")
+
                 elif 'sh' == option:
                     embed = nextcord.Embed(title='Show cycle Options!', color=EMBED_COLOR, timestamp=datetime.utcnow())
 
