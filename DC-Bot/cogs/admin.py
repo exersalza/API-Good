@@ -4,7 +4,7 @@ from itertools import cycle
 import nextcord
 from nextcord.ext import commands, tasks
 
-from .etc.config import query, CUR, ESCAPE, EMBED_COLOR
+from .etc.config import query, CUR, ESCAPE, EMBED_COLOR, db
 
 
 class Admin(commands.Cog):
@@ -34,28 +34,35 @@ class Admin(commands.Cog):
             if f'{ESCAPE}{option}' in list(args):
                 if 'rm' == option:
                     try:
-                        CUR.execute(f"DELETE FROM roll_text WHERE ID={args[args.index(f'{ESCAPE}rm')]}")
-                        await ctx.send(f'Die ID: `{args[args.index(f"{ESCAPE}")]}`')
-                    except Exception:
-                        pass
+                        foo = args[args.index(f'{ESCAPE}rm') + 1]
+                    except IndexError:
+                        await ctx.send('Please enter a ID to delete')
+                        break
+                    CUR.execute(f"DELETE FROM roll_text WHERE ID='{foo}'")
+                    db.commit()
+                    await ctx.send(f"Die ID: `{foo}` wurde Gelöscht!")
+
                 elif 'add' == option:
                     pass
                 elif 'u' == option:
                     pass
                 elif 'sh' == option:
-                    e = nextcord.Embed(title='Show cycle Options!', color=EMBED_COLOR, timestamp=datetime.utcnow())
+                    embed = nextcord.Embed(title='Show cycle Options!', color=EMBED_COLOR, timestamp=datetime.utcnow())
 
-                    CUR.execute("SELECT ID, Text FROM roll_text WHERE Name='API-Goose'")
+                    CUR.execute("SELECT ID, Text FROM roll_text WHERE Name='API-Goose';")
                     fetcher = CUR.fetchall()
 
                     id_ = [item[0] for item in fetcher]
                     value = [item[1] for item in fetcher]
 
-                    for i in id_:  # here we was
-                        e.add_field(name=f'Value: `{contents[contents.index(i)]}`',
-                                    value=f'**ID: `{contents.index(i)}`**', inline=False)
+                    CUR.execute("SELECT roll_txt_val FROM tokens WHERE name='API-Goose';")
+                    counter = CUR.fetchone()
 
-                await ctx.send(embed=e)
+                    for i in range(counter[0]):  # here we was
+                        embed.add_field(name=f'Value: `{value[i]}`',
+                                    value=f'**ID: `{id_[i]}`**', inline=False)
+
+                    await ctx.send(embed=embed)
 
     @commands.Command
     async def poll(self, ctx, *args):
