@@ -1,5 +1,7 @@
 <h1> I'm not an API God(or now Goose), but i want to learn how to manage and use API's ans different Packages in Python :)</h1>
 
+[![CodeFactor](https://www.codefactor.io/repository/github/exersalza/api-goose/badge)](https://www.codefactor.io/repository/github/exersalza/api-goose)
+
 <h3>List of <code>API's/Packages</code> that are included in this Project!</h3>
 <ul>
     <li><a href="https://urlscan.io/docs/api/">URLScan</a>
