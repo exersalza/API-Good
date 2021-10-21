@@ -134,3 +134,6 @@ htmlcov/
 dist/
 build/
 *.egg-info/
+
+# Replit
+.replit
