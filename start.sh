@@ -1,3 +1,4 @@
-#!/home/runner/API-Goose
+#!/etc/bash
 
-eval "python DC-Bot/__main__.py"
+eval "cd DC-Bot"
+eval "python __main__.py"
