@@ -13,9 +13,6 @@ from qrcode.image.styles.moduledrawers import RoundedModuleDrawer, HorizontalBar
 from .etc.config import ESCAPE, PREFIX
 
 
-# todo:
-#  IQAir, BoredAPI implement
-
 
 class Interaction(commands.Cog):
     def __init__(self, bot):
@@ -85,8 +82,8 @@ class Interaction(commands.Cog):
                     await ctx.send(f'One Argument is not under or {limit}')
                     break
 
-            def converter(list):
-                return (*list,)
+            def converter(list_):
+                return (*list_,)
 
             return converter(validate)
 
