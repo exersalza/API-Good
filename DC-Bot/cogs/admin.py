@@ -25,7 +25,7 @@ class Admin(commands.Cog):
     async def status_task(self):
         await self.bot.change_presence(status=nextcord.Status.idle,
                                        activity=nextcord.Activity(type=nextcord.ActivityType.watching,
-                                                                 name=next(self.status)))
+                                                                  name=next(self.status)))
 
     @commands.command()
     async def cycle(self, ctx, *args):
@@ -67,7 +67,7 @@ class Admin(commands.Cog):
 
                     for i in range(counter[0]):  # here we was
                         embed.add_field(name=f'Value: `{value[i]}`',
-                                    value=f'**ID: `{id_[i]}`**', inline=False)
+                                        value=f'**ID: `{id_[i]}`**', inline=False)
 
                     await ctx.send(embed=embed)
 

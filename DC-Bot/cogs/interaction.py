@@ -2,13 +2,13 @@ import argparse
 import os
 import random
 from datetime import datetime
-from itertools import cycle
 
 import nextcord
-from API.qrcode.qr_creator import create_code
+from API.qrcode.qr_creator import create_code_c, create_code_b
 from nextcord.ext import commands
 from nextcord.ext.commands import CommandNotFound
 from pyfiglet import Figlet
+from qrcode.image.styles.moduledrawers import RoundedModuleDrawer, HorizontalBarsDrawer, VerticalBarsDrawer
 
 from .etc.config import ESCAPE, PREFIX
 
@@ -26,6 +26,9 @@ class Interaction(commands.Cog):
 
         self.parser.add_argument('-bg', '--bgcolor', type=str, help='Enter BG Color behind the Argument!')
         self.parser.add_argument('-c', '--color', type=str, help='Enter Color behind the Argument!')
+
+        self.mode = {'horizontal': HorizontalBarsDrawer(), 'vertical': VerticalBarsDrawer(),
+                     'rounded': RoundedModuleDrawer()}
 
     @commands.Cog.listener()
     async def on_message(self, message):  # help for lonely commands :(
@@ -62,7 +65,9 @@ class Interaction(commands.Cog):
         bgcolor = (255, 255, 255)
         box = 6
 
-        options = ['b', 'c', 'bg', 'd', 'h']
+        options = ['b', 'c', 'bg', 'd', 'h', 'm']
+
+        mod = 0
 
         async def parser(rounds, option, validate, limit):
             var = 0
@@ -102,23 +107,31 @@ class Interaction(commands.Cog):
 
                 elif 'b' == option:  # box-size argparser
                     try:
-                        coggers_box = int(args[args.index(f'{ESCAPE}{option}') + 1].strip(','))
-                        if coggers_box >= 100:
+                        box_size = int(args[args.index(f'{ESCAPE}b') + 1].strip(','))
+                        if box_size >= 100:
                             await ctx.send('The box Argument is too Large, please take a Number under 100')
                             break
                         else:
-                            box = coggers_box
+                            box = box_size
 
                     except ValueError:
-                        await ctx.send(ValueError)
                         break
+
+                elif 'm' == option:
+                    mode = args[args.index(f'{ESCAPE}m'):args.index(f'{ESCAPE}m') + 2]
+                    if len(mode) == 2:
+                        for i in self.mode:
+                            if mode[1] == i:
+                                mode_end = self.mode[i]
+                                mod = 1
+                                break
 
                 elif 'h' == option or 'help' == option:
                     embed = nextcord.Embed(title=f'Help site for the Qr Code generator',
-                                          timestamp=datetime.now(),
-                                          color=0x3498DB) \
-                        .add_field(name=f'{ESCAPE}d | Data Argument',
-                                   value=f'Usage: {ESCAPE}d Data*',
+                                           timestamp=datetime.now(),
+                                           color=0x3498DB) \
+                        .add_field(name=f'{ESCAPE}d | *Data Argument',
+                                   value=f'Usage: {ESCAPE}d *Data',
                                    inline=False) \
                         .add_field(name=f'{ESCAPE}c | Color Argument takes an RGB input',
                                    value=f'Usage: {ESCAPE}c R, G, B',
@@ -126,19 +139,34 @@ class Interaction(commands.Cog):
                         .add_field(name=f'{ESCAPE}bg | Background Color Argument Color Argument takes an RGB input',
                                    value=f'Usage: {ESCAPE}bg R, G, B',
                                    inline=False) \
+                        .add_field(name=f'{ESCAPE}m | Set the Desgin for the, Currently only in BaW*',
+                                   value=f'Usage: {ESCAPE}m vertical/horizontal/rounded. When you use the Arg you can\'t take any color!',
+                                   inline=False) \
                         .set_thumbnail(
                         url='https://cdn.discordapp.com/attachments/887032886006530111/894227663072395284/embed_pic.png') \
-                        .set_footer(text='* is an duty argument')
+                        .set_footer(text='*<arg> is an duty argument, BaW = Black and White')
                     await ctx.send(embed=embed)
+                    mod = 'exit'
 
-        if len(vdata):
-            data = str(vdata).translate({ord(i): None for i in "[',]"})
+        data = str(vdata).translate({ord(i): None for i in "[',]"})
+        if mod == 0:
+
             now = f'etc/{datetime.now().strftime("%Y-%m-%d_%H-%M-%S"), random.randint(1, 9999999)}.png'
 
-            create_code(str(data), now, color, bgcolor, box)
+            create_code_c(str(data), now, color, bgcolor, box)
             await ctx.send(file=nextcord.File(now))
 
             os.remove(now)
+        elif mod == 1:
+
+            now = f'etc/{datetime.now().strftime("%Y-%m-%d_%H-%M-%S"), random.randint(1, 9999999)}.png'
+
+            create_code_b(str(data), now, mode_end)
+            await ctx.send(file=nextcord.File(now))
+
+            os.remove(now)
+        else:
+            pass
 
     @commands.Command
     async def banner(self, ctx, *args):
