@@ -13,7 +13,6 @@ from qrcode.image.styles.moduledrawers import RoundedModuleDrawer, HorizontalBar
 from .etc.config import ESCAPE, PREFIX
 
 
-
 class Interaction(commands.Cog):
     def __init__(self, bot):
         self.bot = bot

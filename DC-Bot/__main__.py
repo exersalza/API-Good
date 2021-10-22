@@ -1,6 +1,7 @@
 import os
 import nextcord
 import platform
+from multiprocessing import Process
 
 from time import sleep
 from threading import Thread
@@ -34,12 +35,25 @@ def load():
                 bar()
 
 
-def unload():
+def reload():
     with alive_bar(count) as bar:
         for filename in os.listdir("cogs"):
             if filename.endswith(".py") and filename != "__init__.py" and filename != "playground.py":
                 bot.unload_extension(f"cogs.{filename[:-3]}")
                 bar()
+
+    with alive_bar(count) as bar:
+        for filename in os.listdir("cogs"):
+            if filename.endswith(".py") and filename != "__init__.py" and filename != "playground.py":
+                bot.load_extension(f"cogs.{filename[:-3]}")
+                bar()
+
+
+def ask_input(activ=bool(True)):
+    while activ:
+        ask = input('reload?: ')
+        if ask == 'y':
+            return reload()
 
 
 ''' def askinput(): # it doenst work for now
@@ -72,8 +86,11 @@ if __name__ == '__main__':
     sleep(.5)
     if FLASK:
         print('\u001b[32m\\----------[ FLASK ]----------/\u001b[0m'.center(80))
-    Client = Thread(target=bot.run(TOKEN))
+
+    Client = Process(target=bot.run(TOKEN) and ask_input(True))
     Client.start()
+    # asker = Process(target=ask_input(True))
+    # asker.start()
 
     
     
