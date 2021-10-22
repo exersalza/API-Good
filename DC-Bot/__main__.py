@@ -49,8 +49,8 @@ def reload():
                 bar()
 
 
-def ask_input(activ=bool(True)):
-    while activ:
+def ask_input(active=bool(True)):
+    while active:
         ask = input('reload?: ')
         if ask == 'y':
             return reload()
