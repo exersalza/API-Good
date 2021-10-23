@@ -7,13 +7,16 @@ from nextcord.ext import commands, tasks
 from .etc.config import query, CUR, ESCAPE, EMBED_COLOR, db
 
 
+#todo:
+#   Ban, Kick, Mute,
+
 class Admin(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-        cycle_shit = []
-        query(cycle_shit)
-        self.status = cycle(cycle_shit)
+        self.cycle_shit = []
+        query(self.cycle_shit)
+        self.status = cycle(self.cycle_shit)
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -29,7 +32,7 @@ class Admin(commands.Cog):
 
     @commands.command()
     async def cycle(self, ctx, *args):
-        options = ['rm', 'add', 'sh']  # remove, add, update, showlist
+        options = ['rm', 'add', 'sh', 'rl']  # remove, add, update, showlist
         for option in options:
             if f'{ESCAPE}{option}' in list(args):
                 if 'rm' == option:
@@ -38,7 +41,7 @@ class Admin(commands.Cog):
                     except IndexError:
                         await ctx.send('Please enter a ID to delete')
                         break
-                    CUR.execute(f"DELETE FROM roll_text WHERE ID='{id_}'")
+                    CUR.execute(f"DELETE FROM roll_text WHERE ID=?", id_)
                     db.commit()
                     await ctx.send(f"Die ID: `{id_}` wurde Gelöscht!")
 
@@ -49,7 +52,7 @@ class Admin(commands.Cog):
                     except IndexError:
                         await ctx.send('Please NOTHING')
                         break
-                    CUR.execute(f"INSERT INTO roll_text(Text, Name) VALUES ('{entry}', 'API-Goose')")
+                    CUR.execute(f"INSERT INTO roll_text(Text, Name) VALUES (?, 'API-Goose')", entry)
                     db.commit()
                     await ctx.send(f"Der Eintrag: `{entry}` wurde erstellt!")
 
@@ -70,6 +73,15 @@ class Admin(commands.Cog):
                                         value=f'**ID: `{id_[i]}`**', inline=False)
 
                     await ctx.send(embed=embed)
+
+                elif 'rl' == option:
+                    for i in self.cycle_shit:
+                        self.cycle_shit.remove(i)
+
+                    embed = nextcord.Embed(title='Realoading...', color=EMBED_COLOR)
+
+                    query(self.cycle_shit)
+                    self.status = cycle(self.cycle_shit)
 
     @commands.Command
     async def poll(self, ctx, *args):
@@ -110,9 +122,42 @@ class Admin(commands.Cog):
             else:
                 break
 
-        embed = discord.Embed(title=poll_query[0], color=EMBED_COLOR, timestamp=datetime.utcnow())
+        embed = nextcord.Embed(title=poll_query[0], color=EMBED_COLOR, timestamp=datetime.utcnow())
 
         await ctx.send('You\'r current Poll looks like', embed=embed)
+
+    ## Moderation ##
+
+    @commands.Command
+    async def kick(self, ctx, member: nextcord.Member, *, reason='No Reason Provided'):
+        await member.kick(reason=reason)
+        embed = nextcord.Embed(title="User Kicked!",
+                              description="**{0}** was kicked by **{1}**! \r\nReason **{2}**".format(member,
+                                                                                                     ctx.message.author,
+                                                                                                     reason),
+                              color=EMBED_COLOR)
+        await ctx.send(embed=embed)
+
+    @commands.Command
+    async def ban(self, ctx, member: nextcord.Member, *, reason='No Reason Provided'):
+        await member.ban(reason=reason)
+
+        embed = nextcord.Embed(title="User Banned!", color=EMBED_COLOR)
+        embed.add_field(name='', value='', inline=False)
+
+        await ctx.send(embed=embed)
+
+    @commands.Command
+    async def unban(self, ctx, *args):
+        pass
+
+    @commands.Command
+    async def mute(self, ctx, *args):
+        pass
+
+    @commands.Command
+    async def warning(self, ctx, *args):
+        pass
 
 
 def setup(bot):
