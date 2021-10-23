@@ -2,6 +2,7 @@ from datetime import datetime
 from itertools import cycle
 
 import nextcord
+from nextcord.errors import Forbidden, NotFound
 from nextcord.ext import commands, tasks
 
 from .etc.config import query, CUR, ESCAPE, EMBED_COLOR, db
@@ -138,26 +139,45 @@ class Admin(commands.Cog):
 
     @commands.Command
     async def kick(self, ctx, member: nextcord.Member, *, reason='No Reason Provided'):
-        await member.kick(reason=reason)
-        embed = nextcord.Embed(title="User Kicked!",
-                               description="**{0}** was kicked by **{1}**! \r\nReason **{2}**".format(member,
-                                                                                                      ctx.message.author,
-                                                                                                      reason),
-                               color=EMBED_COLOR)
-        await ctx.send(embed=embed)
+        default = 'No Reason Provided'
+        try:
+            await member.kick(reason=reason)
+            embed = nextcord.Embed(title="User Kicked!",
+                                   color=EMBED_COLOR, timestamp=datetime.utcnow()) \
+                .add_field(name=f'Kicked User: {member}, Reason: {reason if reason != default else "**-**"}',
+                           value=f'Kicked by {ctx.message.author}',
+                           inline=False)
+
+            await ctx.send(embed=embed)
+        except (Forbidden, NotFound):
+            await ctx.send('No Permission to Kick a Member!')
 
     @commands.Command
     async def ban(self, ctx, member: nextcord.Member, *, reason='No Reason Provided'):
-        await member.ban(reason=reason)
+        try:
+            await member.ban(reason=reason)
 
-        embed = nextcord.Embed(title="User Banned!", color=EMBED_COLOR)
-        embed.add_field(name='', value='', inline=False)
+            embed = nextcord.Embed(title="User Banned!", color=EMBED_COLOR, timestamp=datetime.utcnow())
+            embed.add_field(name=f'Banned User: {member}, Reason: {reason}', value=f'Banned by {ctx.message.author}',
+                            inline=False)
 
-        await ctx.send(embed=embed)
+            await ctx.send(embed=embed)
+        except (Forbidden, NotFound):
+            await ctx.send('No Permission to Ban a Member!')
 
     @commands.Command
-    async def unban(self, ctx, *args):
-        pass
+    async def unban(self, ctx, member):
+        try:
+            user = await self.bot.fetch_user(member.strip('<@! >'))
+            await ctx.guild.unban(user)
+
+            embed = nextcord.Embed(title="User Unbanned!", color=EMBED_COLOR, timestamp=datetime.utcnow())
+            embed.add_field(name=f'Unbanned User: {user}', value=f'Banned by {ctx.message.author}',
+                            inline=False)
+
+            await ctx.send(embed=embed)
+        except (Forbidden, NotFound):
+            await ctx.send('No Permission to Ban a Member or Member was not Found!')
 
     @commands.Command
     async def mute(self, ctx, *args):
