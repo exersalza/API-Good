@@ -9,7 +9,7 @@ from .etc.config import query, CUR, ESCAPE, EMBED_COLOR, db
 
 
 # todo:
-#   Ban, Kick, Mute,
+#   Warning
 
 class Admin(commands.Cog):
     def __init__(self, bot):
@@ -184,8 +184,10 @@ class Admin(commands.Cog):
         pass
 
     @commands.Command
-    async def warning(self, ctx, *args):
-        pass
+    async def warn(self, ctx, member: nextcord.Member, *, reason='Just a warn'):
+        CUR.execute("INSERT INTO users(Bot_Name, UserID, ServerID, Warnings) VALUES ('API-Goose', ?, ?, ?);")
+        print(ctx.message.guild.id)
+        await ctx.send(f'{member}')
 
 
 def setup(bot):
