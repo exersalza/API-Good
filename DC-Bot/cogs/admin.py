@@ -7,7 +7,7 @@ from nextcord.ext import commands, tasks
 from .etc.config import query, CUR, ESCAPE, EMBED_COLOR, db
 
 
-#todo:
+# todo:
 #   Ban, Kick, Mute,
 
 class Admin(commands.Cog):
@@ -32,7 +32,7 @@ class Admin(commands.Cog):
 
     @commands.command()
     async def cycle(self, ctx, *args):
-        options = ['rm', 'add', 'sh', 'rl']  # remove, add, update, showlist
+        options = ['rm', 'add', 'sh', 'rl', 'h']  # remove, add, update, showlist
         for option in options:
             if f'{ESCAPE}{option}' in list(args):
                 if 'rm' == option:
@@ -65,12 +65,20 @@ class Admin(commands.Cog):
                     id_ = [item[0] for item in fetcher]
                     value = [item[1] for item in fetcher]
 
-                    CUR.execute("SELECT roll_txt_val FROM tokens WHERE name='API-Goose';")
-                    counter = CUR.fetchone()
-
-                    for i in range(counter[0]):  # here we was
+                    for i in range(len(id_)):  # here we was
                         embed.add_field(name=f'Value: `{value[i]}`',
                                         value=f'**ID: `{id_[i]}`**', inline=False)
+
+                    await ctx.send(embed=embed)
+
+                elif 'h' == option:
+                    embed = nextcord.Embed(title='Cycle Help site!', color=EMBED_COLOR, timestamp=datetime.utcnow()) \
+                        .add_field(name=f'{ESCAPE}add', value=f'Usage: {ESCAPE}add [ARG], ARG can take up to 50 Char',
+                                   inline=False) \
+                        .add_field(name=f'{ESCAPE}rm', value=f'Usage: {ESCAPE}rm [ID], the ID is shown by {ESCAPE}sh',
+                                   inline=False) \
+                        .add_field(name=f'{ESCAPE}sh', value=f'Usage: {ESCAPE}sh', inline=False) \
+                        .add_field(name=f'{ESCAPE}rl', value=f'Usage: {ESCAPE}rl', inline=False)
 
                     await ctx.send(embed=embed)
 
@@ -78,10 +86,10 @@ class Admin(commands.Cog):
                     for i in self.cycle_shit:
                         self.cycle_shit.remove(i)
 
-                    embed = nextcord.Embed(title='Realoading...', color=EMBED_COLOR)
-
                     query(self.cycle_shit)
                     self.status = cycle(self.cycle_shit)
+
+                    await ctx.send('**Reloaded!**')
 
     @commands.Command
     async def poll(self, ctx, *args):
@@ -132,10 +140,10 @@ class Admin(commands.Cog):
     async def kick(self, ctx, member: nextcord.Member, *, reason='No Reason Provided'):
         await member.kick(reason=reason)
         embed = nextcord.Embed(title="User Kicked!",
-                              description="**{0}** was kicked by **{1}**! \r\nReason **{2}**".format(member,
-                                                                                                     ctx.message.author,
-                                                                                                     reason),
-                              color=EMBED_COLOR)
+                               description="**{0}** was kicked by **{1}**! \r\nReason **{2}**".format(member,
+                                                                                                      ctx.message.author,
+                                                                                                      reason),
+                               color=EMBED_COLOR)
         await ctx.send(embed=embed)
 
     @commands.Command
