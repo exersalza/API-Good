@@ -187,19 +187,26 @@ class Admin(commands.Cog):
     @commands.Command
     async def warn(self, ctx, member: nextcord.Member, *, reason='Just a warn'):
         count = 0
-        CUR.execute(f"SELECT Warnings FROM users WHERE UserID={int(member.id)};")
+        CUR.execute(f"SELECT Warnings, ServerID, UserID FROM users WHERE UserID={int(member.id)};")
+        out = CUR.fetchone()
+        if out:
+            if not out[1:] == (ctx.author.guild.id, member.id):
+                print('cogers nicht da')
 
-        if not CUR.fetchone():
+                query_ = "INSERT INTO users (BotName, UserID, ServerID, Bans, Warnings) VALUES (%s, %s, %s, %s, %s)"
+                val = ('API-Goose', int(member.id), int(ctx.author.guild.id), 0, 1)
 
-            query_ = "INSERT INTO users (BotName, UserID, ServerID, Bans, Warnings) VALUES (%s, %s, %s, %s, %s)"
-            val = ('API-Goose', int(member.id), int(ctx.author.guild.id), 0, 1)
+                CUR.execute(query_, val)
 
-            CUR.execute(query_, val)
-        else:
-            CUR.execute(f"SELECT Warnings FROM users WHERE UserID='{member.id}';")
-            count = CUR.fetchone()[0] + 1
+                CUR.execute(f"INSERT INTO Warnings (UserID, ServerID, Warning_msg) VALUES ('{member.id}', '{ctx.author.guild.id}', '{reason}')")
+            else:
+                print('ist da')
+                CUR.execute(f"SELECT Warnings FROM users WHERE UserID='{member.id}', ServerID={ctx.author.guild.id};")
+                count = CUR.fetchone()[0] + 1
 
-            CUR.execute(f"UPDATE users SET Warnings='{count}' WHERE UserID='{member.id}';")
+                CUR.execute(f"UPDATE users SET Warnings='{count}' WHERE UserID='{member.id}', ServerID={ctx.author.guild.id};")
+                CUR.execute(
+                    f"INSERT INTO Warnings (UserID, ServerID, Warning_msg) VALUES ('{member.id}', {ctx.author.guild.id}, '{reason}')")
 
         db.commit()
 
