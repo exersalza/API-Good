@@ -9,7 +9,7 @@ from .etc.config import query, CUR, ESCAPE, EMBED_COLOR, db
 
 
 # todo:
-#   Warning
+#   Mute
 
 class Admin(commands.Cog):
     def __init__(self, bot):
@@ -33,7 +33,7 @@ class Admin(commands.Cog):
 
     @commands.command()
     async def cycle(self, ctx, *args):
-        options = ['rm', 'add', 'sh', 'rl', 'h']  # remove, add, update, showlist
+        options = ['rm', 'add', 'sh', 'rl', 'h']  # remove, add, update, showlist, reload
         for option in options:
             if f'{ESCAPE}{option}' in list(args):
                 if 'rm' == option:
