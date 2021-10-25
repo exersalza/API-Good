@@ -2,6 +2,7 @@ from datetime import datetime
 from itertools import cycle
 
 import nextcord
+from mysql.connector.errors import ProgrammingError
 from nextcord.errors import Forbidden, NotFound
 from nextcord.ext import commands, tasks
 
@@ -185,9 +186,26 @@ class Admin(commands.Cog):
 
     @commands.Command
     async def warn(self, ctx, member: nextcord.Member, *, reason='Just a warn'):
-        CUR.execute("INSERT INTO users(Bot_Name, UserID, ServerID, Warnings) VALUES ('API-Goose', ?, ?, ?);")
-        print(ctx.message.guild.id)
-        await ctx.send(f'{member}')
+        count = 0
+        CUR.execute(f"SELECT Warnings FROM users WHERE UserID={int(member.id)};")
+
+        if not CUR.fetchone():
+
+            query_ = "INSERT INTO users (BotName, UserID, ServerID, Bans, Warnings) VALUES (%s, %s, %s, %s, %s)"
+            val = ('API-Goose', int(member.id), int(ctx.author.guild.id), 0, 1)
+
+            CUR.execute(query_, val)
+        else:
+            CUR.execute(f"SELECT Warnings FROM users WHERE UserID='{member.id}';")
+            count = CUR.fetchone()[0] + 1
+
+            CUR.execute(f"UPDATE users SET Warnings='{count}' WHERE UserID='{member.id}';")
+
+        db.commit()
+
+        embed = nextcord.Embed(title='<= Warning =>', timestamp=datetime.now(), color=EMBED_COLOR) \
+            .add_field(name=f'**User: ** {member}', value=f'Current warnings: {count + 1}')
+        await ctx.send(embed=embed)
 
 
 def setup(bot):

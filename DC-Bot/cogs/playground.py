@@ -1,4 +1,4 @@
-default = 0
-reason = 1
+from etc.config import CUR, db
 
-print(reason if reason != default else '-')
+CUR.execute("INSERT INTO users (BotName, UserID, ServerID, Bans, Warnings) VALUES (123, 123, 1232, 1, 3)")
+db.commit()
