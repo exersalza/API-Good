@@ -2,7 +2,6 @@ from datetime import datetime
 from itertools import cycle
 
 import nextcord
-from mysql.connector.errors import ProgrammingError
 from nextcord.errors import Forbidden, NotFound
 from nextcord.ext import commands, tasks
 
@@ -198,13 +197,15 @@ class Admin(commands.Cog):
 
                 CUR.execute(query_, val)
 
-                CUR.execute(f"INSERT INTO Warnings (UserID, ServerID, Warning_msg) VALUES ('{member.id}', '{ctx.author.guild.id}', '{reason}')")
+                CUR.execute(
+                    f"INSERT INTO Warnings (UserID, ServerID, Warning_msg) VALUES ('{member.id}', '{ctx.author.guild.id}', '{reason}')")
             else:
                 print('ist da')
                 CUR.execute(f"SELECT Warnings FROM users WHERE UserID='{member.id}', ServerID={ctx.author.guild.id};")
                 count = CUR.fetchone()[0] + 1
 
-                CUR.execute(f"UPDATE users SET Warnings='{count}' WHERE UserID='{member.id}', ServerID={ctx.author.guild.id};")
+                CUR.execute(
+                    f"UPDATE users SET Warnings='{count}' WHERE UserID='{member.id}', ServerID={ctx.author.guild.id};")
                 CUR.execute(
                     f"INSERT INTO Warnings (UserID, ServerID, Warning_msg) VALUES ('{member.id}', {ctx.author.guild.id}, '{reason}')")
 
