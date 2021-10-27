@@ -190,7 +190,6 @@ class Admin(commands.Cog):
         out = CUR.fetchone()
         if out:
             if not out[1:] == (ctx.author.guild.id, member.id):
-                print('cogers nicht da')
 
                 query_ = "INSERT INTO users (BotName, UserID, ServerID, Bans, Warnings) VALUES (%s, %s, %s, %s, %s)"
                 val = ('API-Goose', int(member.id), int(ctx.author.guild.id), 0, 1)
@@ -198,16 +197,15 @@ class Admin(commands.Cog):
                 CUR.execute(query_, val)
 
                 CUR.execute(
-                    f"INSERT INTO Warnings (UserID, ServerID, Warning_msg) VALUES ('{member.id}', '{ctx.author.guild.id}', '{reason}')")
+                    f"INSERT INTO Warnings (UserID, ServerID, Warning_msg) VALUES (%s, %s, %s)", member.id, ctx.author.guild.id, reason)
             else:
-                print('ist da')
                 CUR.execute(f"SELECT Warnings FROM users WHERE UserID='{member.id}', ServerID={ctx.author.guild.id};")
                 count = CUR.fetchone()[0] + 1
 
                 CUR.execute(
-                    f"UPDATE users SET Warnings='{count}' WHERE UserID='{member.id}', ServerID={ctx.author.guild.id};")
+                    f"UPDATE users SET Warnings='{count}' WHERE UserID=%s, ServerID={ctx.author.guild.id};", member.id)
                 CUR.execute(
-                    f"INSERT INTO Warnings (UserID, ServerID, Warning_msg) VALUES ('{member.id}', {ctx.author.guild.id}, '{reason}')")
+                    f"INSERT INTO Warnings (UserID, ServerID, Warning_msg) VALUES (%s, %s, %s)", member.id, ctx.author.guild.id, reason)
 
         db.commit()
 
