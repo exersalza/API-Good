@@ -55,7 +55,7 @@ class Troll(commands.Cog):
 
 
     @commands.Command
-    async def leave_vc(self, ctx):
+    async def leave(self, ctx):
         await ctx.voice_client.disconnect()
 
 
