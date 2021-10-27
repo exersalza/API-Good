@@ -137,3 +137,4 @@ build/
 
 # Replit
 .replit
+.spotdl-cache
