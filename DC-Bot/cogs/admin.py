@@ -5,7 +5,7 @@ import nextcord
 from nextcord.errors import Forbidden, NotFound
 from nextcord.ext import commands, tasks
 
-from .etc.config import query, CUR, ESCAPE, EMBED_COLOR, db
+from .etc.config import CUR, ESCAPE, EMBED_COLOR, db
 
 
 # todo:
@@ -15,8 +15,8 @@ class Admin(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-        self.cycle_shit = []
-        query(self.cycle_shit)
+        self.cycle_shit = ['coogers']
+        # query(self.cycle_shit)
         self.status = cycle(self.cycle_shit)
 
     @commands.Cog.listener()
