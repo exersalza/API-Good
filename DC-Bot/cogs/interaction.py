@@ -122,7 +122,7 @@ class Interaction(commands.Cog):
                                 mod = 1
                                 break
 
-                elif 'h' == option or 'help' == option:
+                elif option in ('h', 'help'):
                     embed = nextcord.Embed(title=f'Help site for the Qr Code generator',
                                            timestamp=datetime.now(),
                                            color=0x3498DB) \
@@ -181,7 +181,7 @@ class Interaction(commands.Cog):
         for i in args:
             if i.strip('-') in option:
                 i = i.strip('-')
-                if i == 'server' or i == 's':
+                if i in ('server', 's'):
                     try:
                         file = create_banner(ctx.message.guild.name)
                         await ctx.send(file=nextcord.File(file))
@@ -189,10 +189,10 @@ class Interaction(commands.Cog):
                     except Exception as e:
                         print('e')
 
-                elif i == 'bot' or i == 'b':
+                elif i in ('bot', 'b'):
                     await ctx.send(file=nextcord.File('etc/templateBanner.txt'))
 
-                elif i == 'custom' or i == 'c':
+                elif i in ('custom', 'c'):
                     val = args[args.index(i) + 1:]
                     foo = ' '.join(map(str, list(val)))
 
