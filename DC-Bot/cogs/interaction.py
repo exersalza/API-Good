@@ -88,20 +88,20 @@ class Interaction(commands.Cog):
 
         for option in options:
             if f'{ESCAPE}{option}' in list(args):
-                if 'c' == option:  # color argparser
+                if option == 'c':  # color argparser
                     color = await parser(3, 'c', colores, 255)
 
-                elif 'bg' == option:  # back-color argparser
+                elif option == 'bg':  # back-color argparser
                     bgcolor = await parser(3, 'bg', bgcolores, 255)
 
-                elif 'd' == option:  # data argparser
+                elif option == 'd':  # data argparser
                     for i in args[args.index(f'{ESCAPE}d') + 1:]:
                         if not [i for t in options if f'{ESCAPE}{t}' == i]:
                             vdata.append(i)
                         else:
                             break
 
-                elif 'b' == option:  # box-size argparser
+                elif option == 'b':  # box-size argparser
                     try:
                         box_size = int(args[args.index(f'{ESCAPE}b') + 1].strip(','))
                         if box_size >= 100:
@@ -113,7 +113,7 @@ class Interaction(commands.Cog):
                     except ValueError:
                         break
 
-                elif 'm' == option:
+                elif option == 'm':
                     mode = args[args.index(f'{ESCAPE}m'):args.index(f'{ESCAPE}m') + 2]
                     if len(mode) == 2:
                         for i in self.mode:
