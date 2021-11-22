@@ -12,6 +12,11 @@ from .etc.config import CUR, ESCAPE, EMBED_COLOR, db
 #   Mute
 
 class Admin(commands.Cog):
+	''' Admin control
+	
+	Control the moderation settings like ban and kick.
+
+	'''
     def __init__(self, bot):
         self.bot = bot
 
@@ -42,7 +47,7 @@ class Admin(commands.Cog):
                     except IndexError:
                         await ctx.send('Please enter a ID to delete')
                         break
-                    CUR.execute(f"DELETE FROM roll_text WHERE ID=?", id_)
+                    CUR.execute(f"DELETE FROM roll_text WHERE ID=?", (id_,))
                     db.commit()
                     await ctx.send(f"Die ID: `{id_}` wurde Gelöscht!")
 
@@ -53,7 +58,7 @@ class Admin(commands.Cog):
                     except IndexError:
                         await ctx.send('Please NOTHING')
                         break
-                    CUR.execute(f"INSERT INTO roll_text(Text, Name) VALUES (?, 'API-Goose')", entry)
+                    CUR.execute(f"INSERT INTO roll_text(Text, Name) VALUES (?, 'API-Goose')", (entry,))
                     db.commit()
                     await ctx.send(f"Der Eintrag: `{entry}` wurde erstellt!")
 
@@ -94,6 +99,12 @@ class Admin(commands.Cog):
 
     @commands.Command
     async def poll(self, ctx, *args):
+		''' Creates an Poll
+
+		ctx: nextcord.message()
+		args: takes a title
+		
+		'''
         poll_query = []
 
         await ctx.send('**Welcome to the Poll-Wizard**\nPlease enter your title below')
@@ -197,15 +208,15 @@ class Admin(commands.Cog):
                 CUR.execute(query_, val)
 
                 CUR.execute(
-                    f"INSERT INTO Warnings (UserID, ServerID, Warning_msg) VALUES (%s, %s, %s)", member.id, ctx.author.guild.id, reason)
+                    f"INSERT INTO Warnings (UserID, ServerID, Warning_msg) VALUES (?, ?, ?)", (member.id, ctx.author.guild.id, reason))
             else:
-                CUR.execute(f"SELECT Warnings FROM users WHERE UserID='{member.id}', ServerID={ctx.author.guild.id};")
+                CUR.execute(f"SELECT Warnings FROM users WHERE UserID=?, ServerID=?;", (member.id, ctx.author.guild.id))
                 count = CUR.fetchone()[0] + 1
 
                 CUR.execute(
-                    f"UPDATE users SET Warnings='{count}' WHERE UserID=%s, ServerID={ctx.author.guild.id};", member.id)
+                    f"UPDATE users SET Warnings='{count}' WHERE UserID=?, ServerID=?;", (member.id, ctx.author.guild.id))
                 CUR.execute(
-                    f"INSERT INTO Warnings (UserID, ServerID, Warning_msg) VALUES (%s, %s, %s)", member.id, ctx.author.guild.id, reason)
+                    f"INSERT INTO Warnings (UserID, ServerID, Warning_msg) VALUES (?, ?, ?)",( member.id, ctx.author.guild.id, reason))
 
         db.commit()
 
