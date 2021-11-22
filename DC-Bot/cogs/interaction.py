@@ -50,7 +50,7 @@ class Interaction(commands.Cog):
 
     @commands.Command
     async def createqr(self, ctx, *args):  # with my own argparse function
-        if not len(args):
+        if not args:
             return await ctx.send(f'{PREFIX}createqr Needs an Argument, Try -h for help!')
 
         colores = []
