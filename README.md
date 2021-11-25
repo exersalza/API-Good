@@ -2,6 +2,7 @@
 
 [![CodeFactor](https://www.codefactor.io/repository/github/exersalza/api-goose/badge)](https://www.codefactor.io/repository/github/exersalza/api-goose)
 <img alt='Library' src="https://img.shields.io/badge/library-nextcord.py-blue">
+<img alt="maintenance" src="https://img.shields.io/maintenance/yes/2021">
 
 <h3>List of <code>API's/Packages</code> that are included in this Project!</h3>
 <ul>
